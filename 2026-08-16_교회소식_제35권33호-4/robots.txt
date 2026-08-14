@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────
+#  군산교회 교회소식 — 검색로봇 안내
+#
+#  [중요] 여기서 "Disallow: /" 로 아예 문을 막지 않는 이유
+#  검색엔진을 완전히 못 들어오게 막으면, 정작 "색인하지 말라"는
+#  우리 지시(_headers 의 X-Robots-Tag: noindex)를 읽지 못합니다.
+#  그래서 들어오는 것은 허용하되, 기록은 하지 말라고 확실히
+#  지시하는 방식이 검색 노출 차단에 더 안전합니다.
+# ─────────────────────────────────────────────────────────────
+
+User-agent: *
+Allow: /
+
+# AI 학습용 수집 로봇은 차단합니다 (성도 명단·연락처 보호)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
