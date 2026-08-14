@@ -326,7 +326,7 @@ const CONTENT = {
       }
     ],
     "retreat": {
-      "show": false,
+      "show": true,
       "eyebrow": "",
       "title": "2026년 하계수양회",
       "rounds": [
