@@ -5,8 +5,8 @@
 const CONTENT = {
   "cover": {
     "title": "교회소식",
-    "date": "2026. 8. 30",
-    "issue": "제35권 34호",
+    "date": "2026. 8. 16",
+    "issue": "제35권 33호",
     "verse": "항상 기뻐하라 쉬지 말고 기도하라 범사에 감사하라 — 살전 5:16-18",
     "theme": "light",
     "photo": "images/cover.jpg"
@@ -41,6 +41,11 @@ const CONTENT = {
         "label": "외부 설교",
         "value": "최병관 목사(평창)",
         "note": ""
+      },
+      {
+        "label": "수양회 참석",
+        "value": "이상연 목사, 김규동 전도사",
+        "note": ""
       }
     ]
   },
@@ -54,20 +59,20 @@ const CONTENT = {
       {
         "label": "지난 주",
         "ref": "요한일서 1:5",
-        "text": "우리가 저에게서 듣고 너희에게 전하는 소식이 이것이니 곧 하나님은 빛이시라 그에게는 어두움이 조금도 없으시니라",
+        "text": "우리가 저에게서 듣고 너희에게 전하는 소식이 이것이니 곧 하나님은 빛이시라 그에게는 어두움이 조금도 없으시니라 ",
         "topic": "하나님에 대하여"
       },
       {
         "label": "이번 주",
         "ref": "요한일서 4:16",
-        "text": "하나님이 우리를 사랑하시는 사랑을 우리가 알고 믿었노니 하나님은 사랑이시라 사랑 안에 거하는 자는 하나님 안에 거하고 하나님도 그 안에 거하시느니라",
+        "text": "하나님이 우리를 사랑하시는 사랑을 우리가 알고 믿었노니 하나님은 사랑이시라 사랑 안에 거하는 자는 하나님 안에 거하고 하나님도 그 안에 거하시느니라 ",
         "topic": "하나님에 대하여"
       },
       {
         "label": "다음 주",
         "ref": "마가복음 10:45",
-        "text": "인자의 온 것은 섬김을 받으려 함이 아니라 도리어 섬기려 하고 자기 목숨을 많은 사람의 대속물로 주려 함이니라",
-        "topic": "예수님에 대하여"
+        "text": "인자의 온 것은 섬김을 받으려 함이 아니라 도리어 섬기려 하고 자기 목숨을 많은 사람의 대속물로 주려 함이니라 \n",
+        "topic": "그리스도에 대하여"
       }
     ],
     "openTab": 1
@@ -319,7 +324,7 @@ const CONTENT = {
         "badge": "사전접수 마감 9.2(수)",
         "photo": "",
         "title": "추계수양회",
-        "subtitle": "추계수양회 때 우리 교회가 \"숙소 관리 봉사\" 를 하게 되었습니다.\n봉사에 많은 인원이 필요하오니, 적극 동참 부탁드립니다.",
+        "subtitle": "\n\n1. 환불 안내\n9월 13일(주일) 오후 4시까지 사무실에 신청하여야 환불이 가능합니다. 신청 기한이 넘으면 환불이 불가하고, 수양회 기간 동안 개인 환불은 불가합니다.\n\n2. 개별숙소(새신자 숙소) 신청 방법\n1) 대상 : 새신자 최우선 배정\n2) 신청 : 선착순 배정\n3) 인원 : 한 팀의 인도자 수는 전도 대상자 수를 초과할 수 없음\n\n3. 숙소관리 봉사\n추계수양회 때 우리 교회가 \n\"숙소 관리 봉사\" 를 하게 되었습니다.\n봉사에 많은 인원이 필요하오니, \n적극 동참 부탁드립니다.",
         "when": "9.17(목) ~ 9.20(주일) 3박 4일",
         "where": "갈릴리수양관",
         "speaker": ""
@@ -340,7 +345,7 @@ const CONTENT = {
     },
     "nationwide": {
       "show": true,
-      "title": "전국 교회 전도집회",
+      "title": "전국 교회 전도집회 (테스트 시안성 확인)",
       "groups": [
         {
           "when": "8. 24(월) ~ 8. 30(주일)",
@@ -399,9 +404,27 @@ const CONTENT = {
         "category": "새신자",
         "title": "9기 새신자 모집",
         "body": "최근 구원받으신 분, 신앙생활의 기초를 튼튼하게 세우고자 하시는 분을 모십니다. 새신자실에 방문하여 접수하시거나 새신자 모임에 참석하여 신청해 주세요."
+      },
+      {
+        "date": "",
+        "category": "",
+        "title": "",
+        "body": ""
       }
     ],
     "cellGroups": [
+      {
+        "when": "",
+        "rows": [
+          {
+            "zone": "",
+            "place": "",
+            "who": ""
+          }
+        ],
+        "show": false,
+        "title": "구역모임"
+      },
       {
         "show": false,
         "title": "구역모임",
@@ -419,7 +442,7 @@ const CONTENT = {
   "plan": {
     "year": 2026,
     "month": 8,
-    "openDay": 16,
+    "openDay": 2,
     "days": {
       "2": [
         "새신자부 (9시)",
@@ -536,7 +559,7 @@ const CONTENT = {
     ]
   },
   "offering": {
-    "show": false,
+    "show": true,
     "bank": "농협",
     "number": "527019-55-001246",
     "holder": "예금주 · 대한예수교침례회 군산교회"
@@ -567,7 +590,7 @@ const CONTENT = {
     "en": "Gunsan Church",
     "lines": [
       "(54069) 전북 군산시 토성길 16-8(사정동)",
-      "사무실 063-452-7189",
+      "사무실 063-452-7189 ",
       "팩스 063-452-0695",
       "home.jbch.org/kunsan · 생명의말씀선교회 www.jbch.org"
     ]
@@ -579,18 +602,61 @@ const CONTENT = {
     "albums": [
       {
         "show": true,
-        "title": "8월 구역모임",
+        "title": "하계수양회",
+        "photos": [
+          "images/gmssmemrt5n4.jpg",
+          "images/gmssmemry40b.jpg",
+          "images/gmssmems24af.jpg",
+          "images/gmssmems72pc.jpg",
+          "images/gmssmemsc1xs.jpg",
+          "images/gmssmemsl1dv.jpg",
+          "images/gmssmemso1ha.jpg",
+          "images/gmssmemss28r.jpg",
+          "images/gmssmemsv11o.jpg",
+          "images/gmssmemsz4t1.jpg"
+        ],
+        "note": ""
+      },
+      {
+        "show": true,
+        "title": "새로운 얼굴",
+        "photos": [
+          "images/gmssmffek2zb.jpg",
+          "images/gmssmfff23c8.jpg",
+          "images/gmssmfffn265.jpg",
+          "images/gmssmffg652l.jpg"
+        ],
+        "note": ""
+      },
+      {
+        "show": true,
+        "title": "대학부모임",
         "photos": [],
         "note": ""
+      },
+      {
+        "show": false,
+        "title": "조모임",
+        "photos": [],
+        "note": ""
+      },
+      {
+        "show": true,
+        "title": "대학부 모임",
+        "photos": [
+          "images/gmssmw2hq5kg.jpg",
+          "images/gmssmw2hv4ld.jpg",
+          "images/gmssmw2i05g3.jpg"
+        ]
       }
     ],
-    "note": "",
+    "note": "현재 테스트중입니다.",
     "quality": "normal"
   },
   "notice": {
     "show": true,
     "label": "2026.08.02~30",
-    "title": "웹소식지 시범 운영",
+    "title": "테스트 중입니다.",
     "body": "피드백 주시면 반영하겠습니다.\n감사합니다.",
     "meta": ""
   }
