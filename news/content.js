@@ -5,11 +5,11 @@
 const CONTENT = {
   "cover": {
     "title": "교회소식",
-    "date": "2026. 8. 23.",
+    "date": "2026. 8. 30",
     "issue": "제35권 34호",
     "verse": "항상 기뻐하라 쉬지 말고 기도하라 범사에 감사하라 — 살전 5:16-18",
     "theme": "light",
-    "photo": ""
+    "photo": "images/cover.jpg"
   },
   "staff": [
     {
@@ -591,7 +591,7 @@ const CONTENT = {
     "show": true,
     "label": "2026.08.02~30",
     "title": "웹소식지 시범 운영",
-    "body": "피드백 주시면 반영하겠습니다.\n",
+    "body": "피드백 주시면 반영하겠습니다.\n감사합니다.",
     "meta": ""
   }
 };
