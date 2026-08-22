@@ -26,7 +26,7 @@ const CONTENT = {
     }
   ],
   "today": {
-    "meta": "2026. 8. 16. 주일",
+    "meta": "2026. 8. 23. 주일",
     "rows": [
       {
         "label": "금일 말씀",
