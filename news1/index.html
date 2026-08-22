@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="theme-color" content="#0B2E4A">
+<title>군산교회 교회소식</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- 폰트는 화면 표시를 막지 않도록 비동기로 불러옵니다.
+     인터넷이 느리거나 구글 폰트가 막혀도 소식지는 즉시 뜹니다. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;700&display=swap">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;700&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;700&display=swap"></noscript>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   생명의말씀선교회 디자인 시스템 토큰
+   (이 파일은 손대지 마십시오. 내용은 content.js 에서 고칩니다)
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --color-navy:#1D4E73; --color-sky:#3FA9DC; --color-deep:#0B2E4A;
+  --color-white:#FFFFFF; --color-slate:#38424C; --color-gray-dark:#8C8C8C;
+  --color-gray-light:#E5E5E5;
+  --color-sky-050:#EEF7FC; --color-navy-050:#EEF2F6;
+
+  --surface-page:var(--color-white);
+  --surface-muted:var(--color-navy-050);
+  --surface-tint:var(--color-sky-050);
+  --surface-dark:var(--color-deep);
+
+  --text-strong:var(--color-navy);
+  --text-body:var(--color-slate);
+  --text-muted:var(--color-gray-dark);
+  --text-on-dark:var(--color-white);
+  --text-on-dark-muted:rgba(255,255,255,.72);
+
+  --border-hairline:var(--color-gray-light);
+  --border-soft:rgba(29,78,115,.16);
+  --border-on-dark:rgba(255,255,255,.22);
+
+  --gradient-spirit:linear-gradient(180deg,var(--color-sky) 0%,var(--color-deep) 100%);
+  --gradient-protect:linear-gradient(180deg,rgba(11,46,74,0) 0%,rgba(11,46,74,.78) 100%);
+
+  --font-serif:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --font-sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+
+  --fs-display:40px; --fs-title:27px; --fs-heading:22px;
+  --fs-label:22px; --fs-body:16px; --fs-meta:16px; --fs-caption:16px;
+
+  --lh-tight:1.15; --lh-title:1.3; --lh-body:1.8; --lh-verse:1.65;
+  --tracking-tight:-.02em; --tracking-label:.12em; --tracking-logo:.285em;
+
+  --page-gutter:20px;
+  --radius-xs:2px; --radius-sm:4px; --radius-md:8px; --radius-lg:14px;
+
+  --shadow-card:0 1px 2px rgba(11,46,74,.06),0 6px 18px rgba(11,46,74,.08);
+  --shadow-nav:0 -1px 0 var(--border-hairline),0 -8px 24px rgba(11,46,74,.06);
+  --shadow-inset-hairline:inset 0 0 0 1px var(--border-hairline);
+
+  --ease-standard:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:120ms; --dur-slow:420ms;
+}
+@media (prefers-reduced-motion:reduce){
+  :root{--dur-fast:0ms; --dur-slow:0ms}
+  *{animation-duration:0ms!important; transition-duration:0ms!important}
+}
+
+/* ── 기본 ────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; background:var(--surface-muted); color:var(--text-body);
+  font-family:var(--font-sans); font-size:var(--fs-body); font-weight:500;
+  line-height:var(--lh-body); -webkit-font-smoothing:antialiased;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,h4{font-family:var(--font-serif); color:var(--text-strong); line-height:var(--lh-title); margin:0}
+p{margin:0; text-wrap:pretty}
+button{font:inherit}
+::-webkit-scrollbar{height:0; width:0}
+@keyframes lwmIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
+/* ── 페이지 틀 ───────────────────────────────────────────────── */
+.page{
+  max-width:420px; margin:0 auto; min-height:100vh;
+  background:var(--surface-page); box-shadow:var(--shadow-card);
+  display:flex; flex-direction:column;
+}
+.page__body{
+  flex:1; padding-bottom:calc(72px + env(safe-area-inset-bottom,0px));
+  animation:lwmIn var(--dur-slow) var(--ease-standard);
+}
+.sections{padding:32px var(--page-gutter) 0; display:flex; flex-direction:column; gap:40px}
+section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
+
+/* ── 표지 ────────────────────────────────────────────────────── */
+.cover{
+  position:relative; overflow:hidden; isolation:isolate;
+  background:var(--surface-dark); color:var(--text-on-dark);
+  padding:32px var(--page-gutter) 40px;
+  display:flex; flex-direction:column; gap:24px;
+}
+.cover__photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; opacity:.38}
+.cover__scrim{position:absolute; inset:0; z-index:-1; background:var(--gradient-protect)}
+.cover--light{background:var(--color-white); color:var(--text-strong)}
+.cover--light .cover__photo{opacity:.9}
+.cover--light .cover__scrim{background:linear-gradient(180deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,.94) 62%)}
+.cover--light .cover__title{color:var(--text-strong)}
+.cover--light .cover__verse{color:var(--text-body)}
+.cover--light .cover__strip{border-top-color:var(--border-hairline); color:var(--text-body)}
+.cover--light .cover__rule{background:var(--border-hairline)}
+.cover--light .logo__ko,.cover--light .logo__en{color:var(--color-navy)}
+
+.cover__titleblock{display:flex; flex-direction:column; gap:12px}
+.eyebrow{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:var(--tracking-label); text-transform:uppercase; color:var(--color-sky);
+}
+.cover__title{
+  font-family:var(--font-serif); font-weight:700; font-size:var(--fs-display);
+  line-height:var(--lh-tight); letter-spacing:var(--tracking-tight);
+  word-break:keep-all; white-space:pre-line; color:var(--text-on-dark);
+}
+.cover__verse{
+  font-family:var(--font-serif); font-size:var(--fs-body); line-height:var(--lh-verse);
+  color:var(--text-on-dark-muted); max-width:30ch; word-break:keep-all;
+}
+.cover__strip{
+  display:flex; align-items:center; gap:12px;
+  border-top:1px solid var(--border-on-dark); padding-top:16px;
+  font-family:var(--font-sans); font-weight:500; font-size:var(--fs-meta);
+  color:var(--text-on-dark-muted);
+}
+.cover__strip span:first-child,.cover__strip span:last-child{white-space:nowrap}
+.cover__rule{flex:1; height:1px; background:var(--border-on-dark)}
+
+/* ── 로고 ────────────────────────────────────────────────────── */
+.logo{display:flex; flex-direction:row; align-items:center; gap:12px}
+.logo__img{object-fit:contain; display:block}
+.logo__text{display:flex; flex-direction:column; align-items:flex-start; gap:3px}
+.logo__en{
+  font-family:var(--font-serif); font-weight:700; color:var(--color-white);
+  font-size:9px; letter-spacing:var(--tracking-logo); line-height:1;
+  text-transform:uppercase; padding-left:var(--tracking-logo);
+}
+.logo__ko{
+  font-family:var(--font-serif); font-weight:700; color:var(--color-white);
+  letter-spacing:-.01em; line-height:1.1;
+  transform:scaleX(.95); transform-origin:left;
+}
+
+/* ── 목회자 3칸 ──────────────────────────────────────────────── */
+.staff{display:flex; border-top:1px solid var(--border-hairline); background:var(--surface-muted)}
+.staff__cell{
+  flex:1; padding:14px 10px; display:flex; flex-direction:column; gap:4px;
+  align-items:center; border-left:1px solid rgba(29,78,115,.10);
+}
+.staff__role{
+  font-family:var(--font-sans); font-size:16px; font-weight:500;
+  letter-spacing:.06em; white-space:nowrap; color:var(--text-muted);
+}
+.staff__name{font-family:var(--font-serif); font-size:16px; font-weight:500; color:var(--text-strong)}
+
+/* ── 섹션 머리 ───────────────────────────────────────────────── */
+.sh{display:flex; flex-direction:column; gap:12px}
+.sh__rule{width:40px; height:3px; background:var(--color-navy)}
+.sh__row{display:flex; align-items:baseline; justify-content:space-between; gap:16px}
+.sh__title{
+  font-family:var(--font-serif); font-size:var(--fs-heading); font-weight:500;
+  color:var(--text-strong); line-height:var(--lh-title);
+  word-break:keep-all; min-width:max-content;
+}
+.sh__meta{
+  font-family:var(--font-sans); font-weight:500; font-size:var(--fs-caption);
+  color:var(--text-muted); white-space:normal; word-break:keep-all; min-width:0;
+}
+
+/* ── 카드 / 정보 줄 ──────────────────────────────────────────── */
+.card-hairline{border-radius:var(--radius-md); box-shadow:var(--shadow-inset-hairline)}
+.inforows{padding:18px 18px 6px; display:flex; flex-direction:column}
+.inforow{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+  padding:16px 0; border-bottom:1px solid var(--border-hairline);
+}
+.inforow:last-child{border-bottom:none}
+.inforow__col{display:flex; flex-direction:column; gap:3px; min-width:0}
+.inforow__value{
+  font-family:var(--font-sans); font-size:var(--fs-body); font-weight:700;
+  color:var(--text-body); word-break:keep-all;
+}
+.inforow__note{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500;
+  color:var(--text-muted); line-height:1.6; word-break:keep-all; white-space:pre-line;
+}
+
+/* ── 성구 카드 ───────────────────────────────────────────────── */
+.verse{margin:0; display:flex; flex-direction:column; gap:16px; align-items:flex-start; text-align:left}
+.verse__rule{width:28px; height:2px; background:var(--color-navy)}
+/* 세 주 본문(.tintbox__text)과 같은 크기 — 굵기로만 앞머리임을 나타낸다 */
+.verse__quote{
+  margin:0; font-family:var(--font-serif); font-size:22px; font-weight:500;
+  line-height:var(--lh-verse); color:var(--text-strong); text-wrap:pretty; word-break:keep-all;
+  white-space:pre-line;
+}
+.verse__ref{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:var(--tracking-label); color:var(--color-sky);
+}
+
+/* ── 탭 ──────────────────────────────────────────────────────── */
+.tabs{display:flex; gap:6px}
+.tab{
+  flex:1; min-height:44px; cursor:pointer; border-radius:var(--radius-sm);
+  border:1px solid var(--border-hairline); background:transparent;
+  color:var(--text-muted); font-family:var(--font-sans); font-size:16px; font-weight:500;
+  transition:background var(--dur-fast) var(--ease-standard);
+}
+.tab[aria-selected="true"]{
+  border-color:var(--color-navy); background:var(--color-navy);
+  color:#fff; font-weight:700;
+}
+
+/* ── 성구 본문 박스 ──────────────────────────────────────────── */
+.tintbox{
+  background:var(--surface-tint); border-radius:var(--radius-md); padding:22px 20px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.tintbox__label{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:var(--tracking-label); color:var(--color-sky);
+}
+.tintbox__text{
+  margin:0; font-family:var(--font-serif); font-size:22px; line-height:1.85;
+  color:var(--text-strong); word-break:keep-all; text-wrap:pretty; white-space:pre-line;
+}
+
+/* ── 푯대 말씀 ───────────────────────────────────────────────── */
+.aim{
+  position:relative; overflow:hidden; border-radius:var(--radius-lg);
+  background:var(--surface-dark); padding:30px 24px;
+  display:flex; flex-direction:column; gap:16px;
+}
+.runner{position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--gradient-spirit)}
+.aim__title{
+  margin:0; font-family:var(--font-serif); font-size:26px; font-weight:700;
+  line-height:1.35; color:var(--text-on-dark); word-break:keep-all; white-space:pre-line;
+}
+.aim__body{
+  margin:0; font-family:var(--font-serif); font-size:16px; line-height:1.9;
+  color:var(--text-on-dark-muted); word-break:keep-all; white-space:pre-line;
+}
+.aim__ref{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:var(--tracking-label); color:var(--color-sky);
+}
+
+/* ── 정기모임 ────────────────────────────────────────────────── */
+.meetingrow{
+  display:grid; grid-template-columns:62px 1fr auto; align-items:center; gap:16px;
+  padding:16px; background:transparent; border-radius:0;
+  border-bottom:1px solid var(--border-hairline);
+}
+.meetingrow--hl{background:var(--surface-tint); border-radius:var(--radius-sm)}
+.meetingrow__when{display:flex; flex-direction:column; gap:2px}
+.meetingrow__day{font-family:var(--font-serif); font-size:var(--fs-label); font-weight:700; color:var(--text-strong); line-height:1.1}
+.meetingrow__time{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500; color:var(--text-muted)}
+.meetingrow__name{font-family:var(--font-sans); font-size:var(--fs-body); font-weight:700; color:var(--text-body); word-break:keep-all}
+.meetingrow__place{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500; color:var(--text-muted); white-space:nowrap}
+.pill{
+  align-self:center; margin-top:4px; border:1px solid var(--border-soft);
+  background:transparent; border-radius:999px; padding:9px 18px;
+  font-family:var(--font-sans); font-size:16px; font-weight:700;
+  color:var(--text-strong); cursor:pointer; min-height:44px;
+  transition:background var(--dur-fast) var(--ease-standard);
+}
+.pill:hover{background:var(--surface-muted)}
+
+/* ── 봉사 명단 ───────────────────────────────────────────────── */
+.roster{display:flex; flex-direction:column; padding:6px 18px}
+.roster__row{
+  display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  padding:13px 0; border-bottom:1px solid var(--border-hairline);
+}
+.roster__row:last-child{border-bottom:none}
+.roster__label{font-family:var(--font-sans); font-size:16px; font-weight:500; color:var(--text-muted); word-break:keep-all}
+.roster__value{font-family:var(--font-sans); font-size:var(--fs-body); font-weight:700; color:var(--text-body); text-align:right; word-break:keep-all}
+.quote{margin:0; font-family:var(--font-serif); font-size:16px; line-height:1.8; color:var(--text-strong); word-break:keep-all; white-space:pre-line}
+.quote__ref{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700; letter-spacing:.08em; color:var(--color-sky)}
+.footnote{margin:0; font-family:var(--font-sans); font-size:var(--fs-caption); line-height:1.8; color:var(--text-muted); word-break:keep-all; white-space:pre-line}
+
+/* ── 집회 포스터 ─────────────────────────────────────────────── */
+.poster{
+  position:relative; overflow:hidden; border-radius:var(--radius-lg);
+  background:var(--surface-dark); color:var(--text-on-dark);
+  padding:32px 24px; display:flex; flex-direction:column; gap:20px;
+}
+.poster__photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.3}
+.poster__inner{position:relative; display:flex; flex-direction:column; gap:20px}
+.badge{
+  align-self:flex-start; font-family:var(--font-sans); font-size:var(--fs-caption);
+  font-weight:700; letter-spacing:var(--tracking-label); text-transform:uppercase;
+  color:var(--color-white); background:var(--color-sky);
+  padding:5px 10px; border-radius:var(--radius-xs);
+}
+.poster__titleblock{display:flex; flex-direction:column; gap:8px}
+.poster__title{
+  font-family:var(--font-serif); font-size:var(--fs-display); font-weight:700;
+  line-height:var(--lh-tight); letter-spacing:var(--tracking-tight);
+  color:var(--text-on-dark); word-break:keep-all;
+}
+/* 설명 — 일시·장소·강사 아래에 오므로 가로줄로 구분한다 */
+.poster__sub{
+  font-family:var(--font-serif); font-size:var(--fs-body); line-height:var(--lh-verse);
+  color:var(--text-on-dark-muted); word-break:keep-all; white-space:pre-line;
+  padding-top:16px; border-top:1px solid var(--border-on-dark);
+}
+.poster__dl{
+  margin:0; display:grid; grid-template-columns:48px 1fr;
+  row-gap:12px; column-gap:16px; font-family:var(--font-sans); font-size:var(--fs-body);
+}
+.poster__dl dt{color:var(--color-sky); font-weight:700; font-size:var(--fs-caption); letter-spacing:var(--tracking-label)}
+.poster__dl dd{margin:0; color:var(--text-on-dark); font-weight:500; word-break:keep-all}
+
+/* ── 수양회 ──────────────────────────────────────────────────── */
+.retreat{display:flex; flex-direction:column; gap:12px; padding:20px 18px}
+.retreat__title{margin:0; font-family:var(--font-serif); font-size:22px; font-weight:500; color:var(--text-strong)}
+.retreat__item{display:flex; flex-direction:column; gap:5px; padding:12px 0; border-top:1px solid var(--border-hairline)}
+.retreat__head{display:flex; align-items:baseline; gap:10px}
+.retreat__round{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  color:var(--color-white); background:var(--color-navy);
+  border-radius:var(--radius-xs); padding:3px 8px;
+}
+.retreat__when{font-family:var(--font-sans); font-size:var(--fs-body); font-weight:700; color:var(--text-body)}
+.retreat__lang,.retreat__deadline{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500; color:var(--text-muted); word-break:keep-all; white-space:pre-line}
+.retreat__lang{line-height:1.7}
+
+/* ── 사진 프레임 ─────────────────────────────────────────────── */
+.frame{margin:0; display:flex; flex-direction:column; gap:8px}
+.frame__box{
+  position:relative; aspect-ratio:16/9; overflow:hidden;
+  border-radius:var(--radius-md); background:var(--surface-muted);
+}
+.frame__box img{width:100%; height:100%; object-fit:cover; display:block}
+.frame__ph{
+  position:absolute; inset:0; display:grid; place-items:center;
+  color:var(--text-muted); font-family:var(--font-sans); font-size:var(--fs-caption);
+}
+.frame__overlay{
+  position:absolute; inset:0; display:flex; align-items:flex-end; padding:16px;
+  background:var(--gradient-protect); color:var(--text-on-dark);
+  font-family:var(--font-serif); font-size:var(--fs-label); font-weight:500;
+}
+.frame__caption{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500; color:var(--text-muted)}
+
+/* ── 교회단신 ────────────────────────────────────────────────── */
+.newsitem{display:flex; flex-direction:column; gap:8px; padding:16px 0; border-bottom:1px solid var(--border-hairline)}
+.newsitem:last-child{border-bottom:none}
+.newsitem__meta{display:flex; align-items:center; gap:12px}
+.newsitem__date{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700; color:var(--color-sky); letter-spacing:.04em}
+.newsitem__cat{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500; color:var(--text-muted)}
+.newsitem__title{font-family:var(--font-serif); font-size:var(--fs-label); font-weight:500; color:var(--text-strong); line-height:var(--lh-title); word-break:keep-all}
+.newsitem__body{font-family:var(--font-sans); font-size:var(--fs-body); line-height:var(--lh-body); color:var(--text-body); word-break:keep-all; white-space:pre-line}
+
+/* ── 구역모임 ────────────────────────────────────────────────── */
+.cells{display:flex; flex-direction:column; gap:10px}
+.cell{display:flex; flex-direction:column; gap:8px; background:var(--surface-muted); border-radius:var(--radius-md); padding:16px 16px 6px}
+.cell__when{font-family:var(--font-sans); font-size:16px; font-weight:700; letter-spacing:.04em; color:var(--text-strong)}
+.cell__row{display:grid; grid-template-columns:34px 1fr auto; align-items:baseline; gap:10px; padding:9px 0; border-top:1px solid rgba(29,78,115,.10)}
+.cell__zone{font-family:var(--font-serif); font-size:16px; font-weight:700; color:var(--color-sky)}
+.cell__place{font-family:var(--font-sans); font-size:16px; line-height:1.6; color:var(--text-body); word-break:keep-all; white-space:pre-line}
+.cell__who{font-family:var(--font-sans); font-size:16px; font-weight:700; color:var(--text-muted); white-space:nowrap}
+
+/* ── 달력 ────────────────────────────────────────────────────── */
+.cal{padding:14px 12px}
+.cal__names{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:6px}
+.cal__name{text-align:center; font-family:var(--font-sans); font-size:16px; font-weight:700; letter-spacing:.06em; color:var(--text-muted)}
+.cal__grid{display:grid; grid-template-columns:repeat(7,1fr); gap:2px}
+.cal__cell{
+  min-height:46px; padding:6px 2px 5px; border:none; border-radius:var(--radius-sm);
+  background:transparent; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px; cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-standard);
+}
+.cal__cell--empty{cursor:default}
+.cal__cell[aria-pressed="true"]{background:var(--color-navy)}
+.cal__num{font-family:var(--font-sans); font-size:16px; font-weight:500; color:var(--text-muted)}
+.cal__cell--has .cal__num{font-weight:700; color:var(--text-strong)}
+.cal__cell[aria-pressed="true"] .cal__num{color:#fff}
+.cal__dot{width:0; height:0; border-radius:999px; background:var(--color-sky)}
+.cal__cell--has .cal__dot{width:4px; height:4px}
+.cal__picked{background:var(--surface-tint); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:8px}
+.cal__pickedLabel{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700; letter-spacing:var(--tracking-label); color:var(--color-sky)}
+.cal__pickedItem{font-family:var(--font-sans); font-size:var(--fs-body); font-weight:500; line-height:1.7; color:var(--text-body); word-break:keep-all; white-space:pre-line}
+.spans{display:flex; flex-direction:column}
+.span__row{display:flex; align-items:baseline; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-hairline)}
+.span__row:last-child{border-bottom:none}
+.span__range{font-family:var(--font-sans); font-size:16px; font-weight:700; letter-spacing:.04em; color:var(--color-sky); white-space:nowrap; min-width:84px}
+.span__label{font-family:var(--font-sans); font-size:16px; line-height:1.7; color:var(--text-body); word-break:keep-all; white-space:pre-line}
+
+/* ── 헌금 ────────────────────────────────────────────────────── */
+.offering{border-radius:var(--radius-md); background:var(--surface-muted); padding:20px 18px; display:flex; flex-direction:column; gap:10px}
+.offering__bank{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700; letter-spacing:var(--tracking-label); color:var(--color-sky)}
+.offering__num{font-family:var(--font-serif); font-size:22px; font-weight:700; color:var(--text-strong); letter-spacing:-.01em}
+.offering__holder{font-family:var(--font-sans); font-size:16px; font-weight:500; color:var(--text-body)}
+.offering__btn{
+  margin-top:6px; align-self:flex-start; min-height:44px; border:none;
+  border-radius:var(--radius-sm); background:var(--color-navy); color:#fff;
+  padding:0 18px; font-family:var(--font-sans); font-size:16px; font-weight:700;
+  white-space:nowrap; cursor:pointer; transition:background var(--dur-fast) var(--ease-standard);
+}
+.offering__btn:hover{background:var(--color-deep)}
+.offering__btn:active{transform:scale(.985)}
+
+/* ── 광고 (긴급·이벤트 공지) ─────────────────────────────────── */
+.notice{
+  position:relative; overflow:hidden; border-radius:var(--radius-lg);
+  background:var(--surface-tint); padding:22px 22px 22px 26px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.notice__badge{
+  align-self:flex-start; font-family:var(--font-sans); font-size:var(--fs-caption);
+  font-weight:700; letter-spacing:var(--tracking-label);
+  color:var(--color-white); background:var(--color-navy);
+  padding:4px 10px; border-radius:var(--radius-xs);
+}
+.notice__title{
+  font-family:var(--font-serif); font-size:22px; font-weight:700;
+  color:var(--text-strong); line-height:var(--lh-title); word-break:keep-all;
+}
+.notice__body{
+  font-family:var(--font-sans); font-size:var(--fs-body); line-height:var(--lh-body);
+  color:var(--text-body); word-break:keep-all; white-space:pre-line;
+}
+.notice__meta{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:.06em; color:var(--color-sky); word-break:keep-all;
+}
+
+/* ── 전국 교회 전도집회 ──────────────────────────────────────── */
+.nat{display:flex; flex-direction:column; gap:12px}
+.nat__grp{border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-inset-hairline)}
+.nat__when{
+  background:var(--surface-muted); padding:10px 14px; text-align:center;
+  border-bottom:1px solid var(--border-hairline);
+  font-family:var(--font-sans); font-size:16px; font-weight:700;
+  color:var(--text-strong); letter-spacing:.02em;
+}
+.nat__list{display:flex; flex-wrap:wrap; gap:6px; padding:14px}
+.nat__ch{
+  font-family:var(--font-sans); font-size:16px; color:var(--text-body);
+  background:var(--surface-tint); border-radius:999px; padding:5px 11px;
+  white-space:nowrap;
+}
+.nat__count{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500;
+  color:var(--text-muted); padding:0 14px 12px;
+}
+
+/* ── 교회 활동 사진 ──────────────────────────────────────────── */
+.gal{display:flex; flex-direction:column; gap:26px}
+.gal__album{display:flex; flex-direction:column; gap:10px}
+.gal__head{display:flex; align-items:baseline; justify-content:space-between; gap:12px}
+.gal__title{
+  font-family:var(--font-serif); font-size:var(--fs-label); font-weight:500;
+  color:var(--text-strong); line-height:var(--lh-title); word-break:keep-all;
+}
+.gal__count{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500;
+  color:var(--text-muted); white-space:nowrap;
+}
+.gal__note{
+  font-family:var(--font-sans); font-size:16px; line-height:1.8;
+  color:var(--text-muted); word-break:keep-all; white-space:pre-line;
+}
+.gal__grid{display:grid; grid-template-columns:repeat(2,1fr); gap:6px}
+.gal__grid--one{grid-template-columns:1fr}
+.gal__item{
+  position:relative; aspect-ratio:1/1; overflow:hidden; display:block;
+  border:none; padding:0; margin:0; border-radius:var(--radius-md);
+  background:var(--surface-muted); cursor:zoom-in;
+}
+.gal__grid--one .gal__item{aspect-ratio:4/3}
+.gal__item img{width:100%; height:100%; object-fit:cover; display:block}
+
+/* ── 사진 크게 보기 ──────────────────────────────────────────── */
+.lb{
+  position:fixed; inset:0; z-index:200; background:rgba(11,46,74,.96);
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  padding:56px 12px calc(64px + env(safe-area-inset-bottom,0px));
+}
+.lb.on{display:flex}
+.lb__img{max-width:100%; max-height:100%; object-fit:contain; display:block; border-radius:4px}
+.lb__top{
+  position:absolute; top:0; left:0; right:0; display:flex; align-items:center; gap:12px;
+  padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;
+  color:var(--text-on-dark); font-family:var(--font-sans); font-size:16px;
+}
+.lb__cap{font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.lb__n{color:var(--text-on-dark-muted); font-weight:500; white-space:nowrap}
+.lb__x{
+  margin-left:auto; flex:0 0 auto; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--border-on-dark); background:rgba(255,255,255,.08);
+  color:#fff; font-size:22px; line-height:1; cursor:pointer;
+}
+.lb__bottom{
+  position:absolute; left:0; right:0; bottom:0; display:flex; gap:10px; justify-content:center;
+  padding:12px 14px calc(14px + env(safe-area-inset-bottom,0px));
+}
+.lb__b{
+  min-width:96px; min-height:44px; border-radius:999px;
+  border:1px solid var(--border-on-dark); background:rgba(255,255,255,.08);
+  color:#fff; font-family:var(--font-sans); font-size:16px; font-weight:700; cursor:pointer;
+}
+.lb__b:disabled{opacity:.32; cursor:default}
+
+/* ── 푸터 ────────────────────────────────────────────────────── */
+.foot{
+  margin-top:40px; background:var(--surface-dark); color:var(--text-on-dark);
+  padding:34px var(--page-gutter) 30px; display:flex; flex-direction:column; gap:14px;
+}
+.foot__names{display:flex; flex-direction:column; gap:2px}
+.foot__ko{font-family:var(--font-serif); font-size:22px; font-weight:500; color:var(--text-on-dark)}
+.foot__en{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500; letter-spacing:var(--tracking-label); text-transform:uppercase; color:var(--color-sky)}
+.foot__info{
+  display:flex; flex-direction:column; gap:7px; padding-top:14px;
+  border-top:1px solid var(--border-on-dark); font-family:var(--font-sans);
+  font-size:16px; font-weight:500; line-height:1.7; color:var(--text-on-dark-muted);
+}
+
+/* ── 하단 내비게이션 ─────────────────────────────────────────── */
+.navwrap{position:fixed; left:0; right:0; bottom:0; display:flex; justify-content:center; pointer-events:none; z-index:50}
+.navwrap__inner{width:100%; max-width:420px; pointer-events:auto}
+.nav{
+  display:flex; align-items:stretch; gap:0;
+  background:rgba(255,255,255,.92);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  backdrop-filter:saturate(140%) blur(14px);
+  box-shadow:var(--shadow-nav);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.nav__btn{
+  flex:1; min-height:56px; border:none; cursor:pointer; background:transparent;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:500;
+  color:var(--text-muted); padding:0 4px;
+  transition:color var(--dur-fast) var(--ease-standard);
+}
+.nav__btn[aria-current="true"]{font-weight:700; color:var(--color-navy)}
+.nav__ind{width:18px; height:2px; background:transparent}
+.nav__btn[aria-current="true"] .nav__ind{background:var(--color-sky)}
+
+/* ── 오류 안내 (content.js 문법이 틀렸을 때) ─────────────────── */
+.oops{
+  max-width:420px; margin:0 auto; min-height:100vh; background:#fff;
+  padding:48px 24px; display:flex; flex-direction:column; gap:16px; justify-content:center;
+}
+.oops h1{font-size:22px}
+.oops p{font-size:16px; line-height:1.8; color:var(--text-body)}
+.oops code{background:#EEF2F6; color:#1D4E73; padding:2px 6px; border-radius:4px; font-size:16px; word-break:break-all}
+.oops__box{background:#fff8ea; border:1px solid #e8d5a8; border-radius:8px; padding:14px 16px; font-size:16px; line-height:1.75; color:#7a5a1a}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script src="content.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ── 작은 도우미들 ───────────────────────────────────────── */
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function add(parent) {
+    for (var i = 1; i < arguments.length; i++) {
+      if (arguments[i]) parent.appendChild(arguments[i]);
+    }
+    return parent;
+  }
+  function has(v) { return v != null && String(v).trim() !== ""; }
+
+  /* content.js 를 못 읽었을 때 친절하게 안내 */
+  if (typeof CONTENT === "undefined") {
+    document.getElementById("app").outerHTML =
+      '<div class="oops">' +
+      '<h1>소식지 내용을 읽지 못했습니다</h1>' +
+      '<p><code>content.js</code> 파일에 문법 오류가 있거나 파일이 같은 폴더에 없습니다.</p>' +
+      '<div class="oops__box"><b>가장 흔한 원인 두 가지</b><br>' +
+      '① 줄 끝의 쉼표( , )가 빠졌습니다.<br>' +
+      '② 따옴표( " )를 한쪽만 지웠습니다.<br><br>' +
+      '가장 마지막에 고친 줄을 다시 확인해 보십시오. 직전에 잘 되던 파일로 되돌리면 바로 복구됩니다.</div>' +
+      '<p>그래도 해결되지 않으면 <code>content.js</code> 파일을 그대로 보내 주십시오.</p>' +
+      '</div>';
+    return;
+  }
+
+  var C = CONTENT;
+
+  /* ── 컴포넌트 ────────────────────────────────────────────── */
+
+  function Logo(size, showEn) {
+    var root = el("div", "logo");
+    var img = el("img", "logo__img");
+    img.src = "images/symbol.png";
+    img.alt = "생명의말씀선교회 심볼";
+    img.width = size; img.height = size;
+    img.style.width = size + "px"; img.style.height = size + "px";
+    img.onerror = function () { img.style.display = "none"; };
+    add(root, img);
+
+    var txt = el("div", "logo__text");
+    if (showEn) {
+      add(txt, el("span", "logo__en", "Life Word Mission"));
+    }
+    var ko = el("span", "logo__ko", "생명의말씀선교회");
+    ko.style.fontSize = Math.max(12, Math.round(size * 0.38)) + "px";
+    add(txt, ko);
+    return add(root, txt);
+  }
+
+  function SectionHeader(eyebrow, title, meta) {
+    var h = el("header", "sh");
+    add(h, el("div", "sh__rule"));
+    if (has(eyebrow)) add(h, el("span", "eyebrow", eyebrow));
+    var row = el("div", "sh__row");
+    add(row, el("h2", "sh__title", title));
+    if (has(meta)) add(row, el("span", "sh__meta", meta));
+    return add(h, row);
+  }
+
+  function InfoRow(label, value, note) {
+    var row = el("div", "inforow");
+    var col = el("div", "inforow__col");
+    add(col, el("span", "eyebrow", label));
+    add(col, el("span", "inforow__value", value));
+    if (has(note)) add(col, el("span", "inforow__note", note));
+    return add(row, col);
+  }
+
+  function PhotoFrame(src, overlay, caption) {
+    var fig = el("figure", "frame");
+    var box = el("div", "frame__box");
+    if (has(src)) {
+      var img = el("img");
+      img.src = src; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
+      img.onerror = function () {
+        img.remove();
+        add(box, el("div", "frame__ph", "사진"));
+      };
+      add(box, img);
+    } else {
+      add(box, el("div", "frame__ph", "사진"));
+    }
+    if (has(overlay)) add(box, el("div", "frame__overlay", overlay));
+    add(fig, box);
+    if (has(caption)) add(fig, el("figcaption", "frame__caption", caption));
+    return fig;
+  }
+
+  /* ── 1. 표지 ─────────────────────────────────────────────── */
+  function buildCover() {
+    var c = C.cover || {};
+    var sec = el("section", "cover" + (c.theme === "light" ? " cover--light" : ""));
+    sec.id = "hero";
+
+    if (has(c.photo)) {
+      var img = el("img", "cover__photo");
+      img.src = c.photo; img.alt = "";
+      img.onerror = function () { img.remove(); };
+      add(sec, img);
+      add(sec, el("div", "cover__scrim"));
+    }
+
+    add(sec, Logo(34, false));
+
+    var tb = el("div", "cover__titleblock");
+    var f = C.footer || {};
+    if (has(f.en)) add(tb, el("span", "eyebrow", f.en));
+    add(tb, el("h1", "cover__title", c.title || ""));
+    add(sec, tb);
+
+    if (has(c.verse)) add(sec, el("p", "cover__verse", c.verse));
+
+    var strip = el("div", "cover__strip");
+    add(strip, el("span", null, c.date || ""));
+    add(strip, el("span", "cover__rule"));
+    add(strip, el("span", null, c.issue || ""));
+    add(sec, strip);
+
+    var wrap = el("div");
+    wrap.id = "hero-wrap";
+    add(wrap, sec);
+
+    var staff = el("div", "staff");
+    (C.staff || []).forEach(function (s) {
+      var cell = el("div", "staff__cell");
+      add(cell, el("span", "staff__role", s.role));
+      add(cell, el("span", "staff__name", s.name));
+      add(staff, cell);
+    });
+    return add(wrap, staff);
+  }
+
+  /* ── 1.5 광고 (모든 성도에게 알릴 일이 있을 때) ──────────── */
+  function buildNotice() {
+    var n = C.notice || {};
+    if (!n.show) return null;
+    if (!has(n.title) && !has(n.body)) return null;
+    var sec = el("section"); sec.id = "notice";
+    var box = el("div", "notice");
+    if (has(n.label)) add(box, el("span", "notice__badge", n.label));
+    if (has(n.title)) add(box, el("h2", "notice__title", n.title));
+    if (has(n.body)) add(box, el("p", "notice__body", n.body));
+    if (has(n.meta)) add(box, el("span", "notice__meta", n.meta));
+    return add(sec, box);
+  }
+
+  /* ── 2. 금일 말씀 ────────────────────────────────────────── */
+  function buildToday() {
+    var t = C.today || {};
+    var sec = el("section"); sec.id = "today";
+    add(sec, SectionHeader("Today", "금일 말씀 및 찬양", t.meta));
+    var card = el("div", "card-hairline");
+    var rows = el("div", "inforows");
+    (t.rows || []).forEach(function (r) { add(rows, InfoRow(r.label, r.value, r.note)); });
+    return add(sec, add(card, rows));
+  }
+
+  /* ── 3. 성구암송 ─────────────────────────────────────────── */
+  function buildMemory() {
+    var m = C.memory || {};
+    var verses = m.verses || [];
+    var sec = el("section"); sec.id = "verse";
+    add(sec, SectionHeader("Memory Verses", "성구암송", "개역한글"));
+
+    var mv = m.mainVerse || {};
+    var fig = el("figure", "verse");
+    add(fig, el("div", "verse__rule"));
+    add(fig, el("blockquote", "verse__quote", mv.text || ""));
+    if (has(mv.ref)) add(fig, el("figcaption", "verse__ref", mv.ref));
+    add(sec, fig);
+
+    var tabs = el("div", "tabs");
+    tabs.setAttribute("role", "tablist");
+    var box = el("div", "tintbox");
+    var label = el("span", "tintbox__label");
+    var text = el("p", "tintbox__text");
+    add(box, label, text);
+
+    var current = Math.min(Math.max(m.openTab || 0, 0), Math.max(verses.length - 1, 0));
+    function paint() {
+      var v = verses[current] || {};
+      var tp = has(v.topic) ? v.topic : (has(m.topic) ? m.topic : "");
+      label.textContent = (has(tp) ? tp + " · " : "") + (v.ref || "");
+      text.textContent = v.text || "";
+      Array.prototype.forEach.call(tabs.children, function (b, i) {
+        b.setAttribute("aria-selected", i === current ? "true" : "false");
+      });
+    }
+    verses.forEach(function (v, i) {
+      var b = el("button", "tab", v.label);
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.onclick = function () { current = i; paint(); };
+      add(tabs, b);
+    });
+    paint();
+    return add(sec, tabs, box);
+  }
+
+  /* ── 4. 푯대 말씀 ────────────────────────────────────────── */
+  function buildAim() {
+    var a = C.aim || {};
+    var sec = el("section"); sec.id = "goal";
+    add(sec, SectionHeader("Our Aim", "푯대 말씀"));
+    var box = el("div", "aim");
+    add(box, el("div", "runner"));
+    add(box, el("p", "aim__title", a.title || ""));
+    add(box, el("p", "aim__body", a.body || ""));
+    if (has(a.ref)) add(box, el("span", "aim__ref", a.ref));
+    return add(sec, box);
+  }
+
+  /* ── 5. 정기모임 ─────────────────────────────────────────── */
+  function buildMeetings() {
+    var all = C.meetings || [];
+    var sec = el("section"); sec.id = "meetings";
+    add(sec, SectionHeader("Weekly Services", "정기모임", "행 2:46"));
+
+    var list = el("div");
+    var open = false;
+    var btn = el("button", "pill");
+    btn.type = "button";
+
+    function paint() {
+      list.textContent = "";
+      (open ? all : all.slice(0, 6)).forEach(function (m) {
+        var row = el("div", "meetingrow" + (m.highlight ? " meetingrow--hl" : ""));
+        var when = el("div", "meetingrow__when");
+        add(when, el("span", "meetingrow__day", m.day || ""));
+        add(when, el("span", "meetingrow__time", m.time || ""));
+        add(row, when);
+        add(row, el("span", "meetingrow__name", m.name || ""));
+        if (has(m.place)) add(row, el("span", "meetingrow__place", m.place));
+        add(list, row);
+      });
+      btn.textContent = open ? "접기" : "정기모임 전체 보기 (" + all.length + ")";
+    }
+    btn.onclick = function () { open = !open; paint(); };
+    paint();
+    add(sec, list);
+    if (all.length > 6) add(sec, btn);
+    return sec;
+  }
+
+  /* ── 6. 안내 및 봉사 ─────────────────────────────────────── */
+  function buildServing() {
+    var s = C.serving || {};
+    var weeks = s.weeks || [];
+    var sec = el("section"); sec.id = "serving";
+    add(sec, SectionHeader("Guide & Serving", "안내 및 봉사"));
+
+    var tabs = el("div", "tabs");
+    tabs.setAttribute("role", "tablist");
+    var card = el("div", "card-hairline");
+    var rows = el("div", "roster");
+    add(card, rows);
+
+    var current = 0;
+    function paint() {
+      rows.textContent = "";
+      ((weeks[current] || {}).rows || []).forEach(function (pair) {
+        var r = el("div", "roster__row");
+        add(r, el("span", "roster__label", pair[0]));
+        add(r, el("span", "roster__value", pair[1]));
+        add(rows, r);
+      });
+      Array.prototype.forEach.call(tabs.children, function (b, i) {
+        b.setAttribute("aria-selected", i === current ? "true" : "false");
+      });
+    }
+    weeks.forEach(function (w, i) {
+      var b = el("button", "tab", w.label);
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.onclick = function () { current = i; paint(); };
+      add(tabs, b);
+    });
+    paint();
+    add(sec, tabs, card);
+
+    if (has(s.quote)) {
+      var q = el("p", "quote", s.quote + " ");
+      if (has(s.quoteRef)) add(q, el("span", "quote__ref", s.quoteRef));
+      add(sec, q);
+    }
+    if (has(s.note)) add(sec, el("p", "footnote", s.note));
+    return sec;
+  }
+
+  /* ── 7. 전도집회 ─────────────────────────────────────────── */
+  function buildRevival() {
+    var r = C.revival || {};
+    var sec = el("section"); sec.id = "revival";
+    add(sec, SectionHeader("Evangelistic Meeting", "전도집회 안내", "딤후 4:2"));
+
+    var rt = r.retreat || {};
+    if (rt.show) {
+      var card = el("div", "card-hairline retreat");
+      if (has(rt.eyebrow)) add(card, el("span", "eyebrow", rt.eyebrow));
+      add(card, el("h3", "retreat__title", rt.title || ""));
+      (rt.rounds || []).forEach(function (x) {
+        var item = el("div", "retreat__item");
+        var head = el("div", "retreat__head");
+        add(head, el("span", "retreat__round", x.round));
+        add(head, el("span", "retreat__when", x.when));
+        add(item, head);
+        if (has(x.lang)) add(item, el("span", "retreat__lang", x.lang));
+        if (has(x.deadline)) add(item, el("span", "retreat__deadline", x.deadline));
+        add(card, item);
+      });
+      add(sec, card);
+    }
+
+    (r.posters || []).forEach(function (p) {
+      var box = el("section", "poster");
+      if (has(p.photo)) {
+        var img = el("img", "poster__photo");
+        img.src = p.photo; img.alt = ""; img.loading = "lazy";
+        img.onerror = function () { img.remove(); };
+        add(box, img);
+      }
+      add(box, el("div", "runner"));
+      var inner = el("div", "poster__inner");
+      if (has(p.badge)) add(inner, el("span", "badge", p.badge));
+      var tb = el("div", "poster__titleblock");
+      add(tb, el("h2", "poster__title", p.title || ""));
+      add(inner, tb);
+
+      var dl = el("dl", "poster__dl");
+      [["일시", p.when], ["장소", p.where], ["강사", p.speaker]].forEach(function (pair) {
+        if (!has(pair[1])) return;
+        add(dl, el("dt", null, pair[0]));
+        add(dl, el("dd", null, pair[1]));
+      });
+      add(inner, dl);
+      /* 설명은 일시·장소·강사 아래에 */
+      if (has(p.subtitle)) add(inner, el("p", "poster__sub", p.subtitle));
+      add(sec, add(box, inner));
+    });
+
+    /* 전국 교회 전도집회 */
+    var nw = r.nationwide || {};
+    var groups = (nw.groups || []).filter(function (g) {
+      return g && (has(g.when) || has(g.churches));
+    });
+    if (nw.show && groups.length) {
+      add(sec, el("div", "sh__rule"));
+      add(sec, el("h3", "retreat__title", nw.title || "전국 교회 전도집회"));
+      var wrap = el("div", "nat");
+      groups.forEach(function (g) {
+        var box = el("div", "nat__grp");
+        if (has(g.when)) add(box, el("div", "nat__when", g.when));
+        var names = String(g.churches || "")
+          .split(/[,\n·]/).map(function (x) { return x.trim(); }).filter(Boolean);
+        var list = el("div", "nat__list");
+        names.forEach(function (nm) { add(list, el("span", "nat__ch", nm)); });
+        add(box, list);
+        if (names.length) add(box, el("div", "nat__count", "모두 " + names.length + "개 교회"));
+        add(wrap, box);
+      });
+      add(sec, wrap);
+    }
+    return sec;
+  }
+
+  /* ── 8. 교회단신 ─────────────────────────────────────────── */
+  function buildNews() {
+    var n = C.news || {};
+    var sec = el("section"); sec.id = "news";
+    add(sec, SectionHeader("Church News", "교회단신", "롬 12:11"));
+    if (has(n.photo)) {
+      add(sec, PhotoFrame(n.photo, n.photoOverlay, n.photoCaption));
+    }
+
+    var list = el("div");
+    (n.items || []).forEach(function (it) {
+      var art = el("article", "newsitem");
+      var meta = el("div", "newsitem__meta");
+      add(meta, el("span", "newsitem__date", it.date || ""));
+      if (has(it.category)) add(meta, el("span", "newsitem__cat", it.category));
+      add(art, meta);
+      add(art, el("h3", "newsitem__title", it.title || ""));
+      if (has(it.body)) add(art, el("p", "newsitem__body", it.body));
+      add(list, art);
+    });
+    add(sec, list);
+
+    var cells = el("div", "cells");
+    var groups = (n.cellGroups || []).filter(function (g) { return g && g.show !== false; });
+    groups.forEach(function (g) {
+      var box = el("div", "cell");
+      var head = [g.title || "모임", g.when].filter(has).join(" · ");
+      add(box, el("span", "cell__when", head));
+      (g.rows || []).forEach(function (c) {
+        var row = el("div", "cell__row");
+        add(row, el("span", "cell__zone", c.zone));
+        add(row, el("span", "cell__place", c.place));
+        add(row, el("span", "cell__who", c.who || ""));
+        add(box, row);
+      });
+      add(cells, box);
+    });
+    if (groups.length) add(sec, cells);
+    return sec;
+  }
+
+  /* ── 9. 월간계획 (달력 자동 생성) ────────────────────────── */
+  function buildPlan() {
+    var p = C.plan || {};
+    var year = p.year || new Date().getFullYear();
+    var month = p.month || (new Date().getMonth() + 1);
+    var days = p.days || {};
+
+    var sec = el("section"); sec.id = "plan";
+    add(sec, SectionHeader("Monthly Plan", month + "월 월간계획", "날짜를 눌러 보세요"));
+
+    var card = el("div", "card-hairline cal");
+    var names = el("div", "cal__names");
+    ["주일", "월", "화", "수", "목", "금", "토"].forEach(function (d) {
+      add(names, el("span", "cal__name", d));
+    });
+    add(card, names);
+
+    var grid = el("div", "cal__grid");
+    add(card, grid);
+
+    var picked = el("div", "cal__picked");
+    var pickedLabel = el("span", "cal__pickedLabel");
+    var pickedList = el("div");
+    pickedList.style.display = "flex";
+    pickedList.style.flexDirection = "column";
+    pickedList.style.gap = "8px";
+    add(picked, pickedLabel, pickedList);
+
+    var first = new Date(year, month - 1, 1).getDay();   // 0 = 주일
+    var last = new Date(year, month, 0).getDate();
+    var current = days[p.openDay] ? p.openDay : (p.openDay || 1);
+
+    function paintPicked() {
+      pickedLabel.textContent = month + "월 " + current + "일";
+      pickedList.textContent = "";
+      var items = days[current] && days[current].length ? days[current] : ["예정된 모임이 없습니다."];
+      items.forEach(function (t) {
+        add(pickedList, el("span", "cal__pickedItem", "— " + t));
+      });
+      Array.prototype.forEach.call(grid.children, function (b) {
+        var d = b.getAttribute("data-day");
+        b.setAttribute("aria-pressed", d && Number(d) === current ? "true" : "false");
+      });
+    }
+
+    for (var i = 0; i < first; i++) {
+      add(grid, el("div", "cal__cell cal__cell--empty"));
+    }
+    for (var d = 1; d <= last; d++) {
+      (function (day) {
+        var hasItems = !!(days[day] && days[day].length);
+        var b = el("button", "cal__cell" + (hasItems ? " cal__cell--has" : ""));
+        b.type = "button";
+        b.setAttribute("data-day", day);
+        b.setAttribute("aria-label", month + "월 " + day + "일");
+        add(b, el("span", "cal__num", String(day)));
+        add(b, el("span", "cal__dot"));
+        b.onclick = function () { current = day; paintPicked(); };
+        add(grid, b);
+      })(d);
+    }
+    var trailing = (7 - ((first + last) % 7)) % 7;
+    for (var j = 0; j < trailing; j++) {
+      add(grid, el("div", "cal__cell cal__cell--empty"));
+    }
+    paintPicked();
+
+    /* 여러 날에 걸친 주요 일정을 달력보다 먼저 */
+    if ((p.spans || []).length) {
+      var spans = el("div", "spans");
+      p.spans.forEach(function (sp) {
+        var row = el("div", "span__row");
+        add(row, el("span", "span__range", sp.range));
+        add(row, el("span", "span__label", sp.label));
+        add(spans, row);
+      });
+      add(sec, spans);
+    }
+    add(sec, card, picked);
+    return sec;
+  }
+
+  /* ── 10. 헌금 ────────────────────────────────────────────── */
+  function buildOffering() {
+    var o = C.offering || {};
+    if (!o.show) return null;
+    var sec = el("section"); sec.id = "offering";
+    add(sec, SectionHeader("Offering", "헌금 안내"));
+    var box = el("div", "offering");
+    if (has(o.bank)) add(box, el("span", "offering__bank", o.bank));
+    add(box, el("span", "offering__num", o.number || ""));
+    if (has(o.holder)) add(box, el("span", "offering__holder", o.holder));
+
+    var btn = el("button", "offering__btn", "계좌번호 복사");
+    btn.type = "button";
+    btn.onclick = function () {
+      var done = function () {
+        btn.textContent = "복사되었습니다";
+        setTimeout(function () { btn.textContent = "계좌번호 복사"; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(o.number || "").then(done, done);
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = o.number || "";
+        ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    };
+    add(box, btn);
+    return add(sec, box);
+  }
+
+  /* ── 11. 해외 후원교회 ───────────────────────────────────── */
+  function buildMissions() {
+    var m = C.missions || {};
+    var sec = el("section"); sec.id = "missions";
+    add(sec, SectionHeader("World Missions", "해외 후원교회", "행 1:8"));
+    if (has(m.photo)) {
+      add(sec, PhotoFrame(m.photo, m.photoOverlay, m.photoCaption));
+    }
+    var list = el("div");
+    (m.items || []).forEach(function (x) {
+      add(list, InfoRow(x.country, x.city, x.person));
+    });
+    return add(sec, list);
+  }
+
+  /* ── 12. 교회 활동 사진 ──────────────────────────────────── */
+  var LB = { list: [], i: 0, cap: "" };
+  var lbEl = null, lbImg = null, lbCap = null, lbN = null, lbPrev = null, lbNext = null;
+
+  function buildLightbox() {
+    lbEl = el("div", "lb");
+    var top = el("div", "lb__top");
+    lbCap = el("span", "lb__cap");
+    lbN = el("span", "lb__n");
+    var x = el("button", "lb__x", "×");
+    x.type = "button";
+    x.setAttribute("aria-label", "닫기");
+    x.onclick = closeLb;
+    add(top, lbCap, lbN, x);
+
+    lbImg = el("img", "lb__img");
+    lbImg.alt = "";
+
+    var bottom = el("div", "lb__bottom");
+    lbPrev = el("button", "lb__b", "‹ 이전");
+    lbNext = el("button", "lb__b", "다음 ›");
+    lbPrev.type = lbNext.type = "button";
+    lbPrev.onclick = function () { showLb(LB.i - 1); };
+    lbNext.onclick = function () { showLb(LB.i + 1); };
+    add(bottom, lbPrev, lbNext);
+
+    lbEl.onclick = function (e) { if (e.target === lbEl || e.target === lbImg) closeLb(); };
+    add(lbEl, top, lbImg, bottom);
+
+    document.addEventListener("keydown", function (e) {
+      if (!lbEl.classList.contains("on")) return;
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowLeft") showLb(LB.i - 1);
+      else if (e.key === "ArrowRight") showLb(LB.i + 1);
+    });
+    return lbEl;
+  }
+  function showLb(i) {
+    if (i < 0 || i >= LB.list.length) return;
+    LB.i = i;
+    lbImg.src = LB.list[i];
+    lbCap.textContent = LB.cap;
+    lbN.textContent = (i + 1) + " / " + LB.list.length;
+    lbPrev.disabled = (i === 0);
+    lbNext.disabled = (i === LB.list.length - 1);
+  }
+  function openLb(list, i, cap) {
+    LB.list = list; LB.cap = cap || "";
+    lbEl.classList.add("on");
+    document.body.style.overflow = "hidden";
+    showLb(i);
+  }
+  function closeLb() {
+    lbEl.classList.remove("on");
+    document.body.style.overflow = "";
+    lbImg.removeAttribute("src");
+  }
+
+  function buildGallery() {
+    var g = C.gallery || {};
+    if (!g.show) return null;
+    var albums = (g.albums || []).filter(function (a) {
+      return a && a.show !== false && (a.photos || []).filter(has).length > 0;
+    }).slice(0, 10);
+    if (!albums.length) return null;
+
+    var sec = el("section"); sec.id = "life";
+    add(sec, SectionHeader("Church Life", g.title || "교회 활동", g.meta));
+
+    var wrap = el("div", "gal");
+    albums.forEach(function (a) {
+      var photos = (a.photos || []).filter(has).slice(0, 20);
+      var ab = el("div", "gal__album");
+      if (has(a.title) || photos.length > 1) {
+        var head = el("div", "gal__head");
+        add(head, el("h3", "gal__title", a.title || ""));
+        if (photos.length > 1) add(head, el("span", "gal__count", photos.length + "장"));
+        add(ab, head);
+      }
+      var grid = el("div", "gal__grid" + (photos.length === 1 ? " gal__grid--one" : ""));
+      photos.forEach(function (src, i) {
+        var btn = el("button", "gal__item");
+        btn.type = "button";
+        btn.setAttribute("aria-label", (a.title || "교회 활동") + " 사진 " + (i + 1) + " 크게 보기");
+        var img = el("img");
+        img.alt = ""; img.loading = "lazy"; img.decoding = "async";
+        img.onerror = function () { btn.remove(); };
+        img.src = src;
+        add(btn, img);
+        btn.onclick = function () { openLb(photos, i, a.title || ""); };
+        add(grid, btn);
+      });
+      add(ab, grid);
+      if (has(a.note)) add(ab, el("p", "gal__note", a.note));
+      add(wrap, ab);
+    });
+    add(sec, wrap);
+    if (has(g.note)) add(sec, el("p", "gal__note", g.note));
+    return sec;
+  }
+
+  /* ── 13. 푸터 ────────────────────────────────────────────── */
+  function buildFooter() {
+    var f = C.footer || {};
+    var foot = el("footer", "foot");
+    add(foot, Logo(30, true));
+    var names = el("div", "foot__names");
+    add(names, el("span", "foot__ko", f.church || ""));
+    add(names, el("span", "foot__en", f.en || ""));
+    add(foot, names);
+    var info = el("div", "foot__info");
+    (f.lines || []).forEach(function (t) { add(info, el("span", null, t)); });
+    return add(foot, info);
+  }
+
+  /* ── 14. 하단 내비게이션 ─────────────────────────────────── */
+  var NAV = [
+    { id: "hero", label: "표지" },
+    { id: "revival", label: "집회" },
+    { id: "news", label: "단신" },
+    { id: "plan", label: "계획" },
+    { id: "meetings", label: "모임" },
+    { id: "verse", label: "암송" }
+  ];
+  var SPY = ["hero", "notice", "today", "revival", "life", "news", "plan",
+             "meetings", "serving", "offering", "missions", "verse", "goal"];
+  var SPY_MAP = {
+    hero: "hero", notice: "hero", today: "hero",
+    revival: "revival", life: "life",
+    news: "news", plan: "plan",
+    meetings: "meetings", serving: "meetings", offering: "meetings", missions: "meetings",
+    verse: "verse", goal: "verse"
+  };
+  /* 교회 활동 사진이 있으면 「집회」와 「단신」 사이에 '사진'을 끼운다 */
+  if (document.documentElement) {
+    var g0 = C.gallery || {};
+    var hasLife = g0.show && (g0.albums || []).some(function (a) {
+      return a && a.show !== false && (a.photos || []).filter(has).length > 0;
+    });
+    if (hasLife) NAV.splice(2, 0, { id: "life", label: "사진" });
+    else SPY_MAP.life = "revival";
+  }
+
+  function buildNav() {
+    var wrap = el("div", "navwrap");
+    var inner = el("div", "navwrap__inner");
+    var nav = el("nav", "nav");
+    NAV.forEach(function (it) {
+      var b = el("button", "nav__btn");
+      b.type = "button";
+      b.setAttribute("data-target", it.id);
+      add(b, el("span", "nav__ind"));
+      add(b, el("span", null, it.label));
+      b.onclick = function () {
+        var t = document.getElementById(it.id);
+        if (t) {
+          window.scrollTo({
+            top: t.getBoundingClientRect().top + window.scrollY - 12,
+            behavior: "smooth"
+          });
+        }
+      };
+      add(nav, b);
+    });
+    add(wrap, add(inner, nav));
+
+    var active = "";
+    function spy() {
+      var cur = SPY[0];
+      for (var i = 0; i < SPY.length; i++) {
+        var e = document.getElementById(SPY[i]);
+        if (e && e.getBoundingClientRect().top <= 90) cur = SPY[i];
+      }
+      var next = SPY_MAP[cur] || "hero";
+      if (next === active) return;
+      active = next;
+      Array.prototype.forEach.call(nav.children, function (b) {
+        b.setAttribute("aria-current", b.getAttribute("data-target") === next ? "true" : "false");
+      });
+    }
+    window.addEventListener("scroll", spy, { passive: true });
+    setTimeout(spy, 0);
+    return wrap;
+  }
+
+  /* ── 조립 ────────────────────────────────────────────────── */
+  try {
+    var page = el("div", "page");
+    var body = el("div", "page__body");
+    add(body, buildCover());
+
+    var sections = el("div", "sections");
+    add(sections,
+      buildNotice(),      /* 광고 (있을 때만) */
+      buildToday(),       /* 금일 말씀 및 찬양 */
+      buildRevival(),     /* 전도집회 일정 */
+      buildGallery(),     /* 이번주 활동 */
+      buildNews(),        /* 교회단신 */
+      buildPlan(),        /* 월간계획 (주요 일정 → 달력) */
+      buildMeetings(),    /* 정기모임 */
+      buildServing(),     /* 안내 및 봉사 */
+      buildOffering(),    /* 헌금 */
+      buildMissions(),    /* 해외 후원교회 */
+      buildMemory(),      /* 성구암송 */
+      buildAim()          /* 푯대 말씀 */
+    );
+    add(body, sections);
+    add(body, buildFooter());
+    add(page, body);
+
+    var app = document.getElementById("app");
+    app.textContent = "";
+    add(app, page, buildNav(), buildLightbox());
+    document.title = "군산교회 교회소식 — " + ((C.cover || {}).issue || "");
+  } catch (err) {
+    document.getElementById("app").outerHTML =
+      '<div class="oops">' +
+      '<h1>소식지를 그리는 중 문제가 생겼습니다</h1>' +
+      '<p><code>content.js</code> 에서 항목 하나의 모양이 어긋난 것 같습니다.</p>' +
+      '<div class="oops__box"><b>오류 내용</b><br><code>' +
+      String(err && err.message ? err.message : err).replace(/</g, "&lt;") +
+      '</code></div>' +
+      '<p>가장 마지막에 고친 부분을 확인해 보십시오. 목록의 대괄호 <code>[ ]</code> 나 중괄호 <code>{ }</code> 짝이 맞는지 보시면 대개 찾아집니다.</p>' +
+      '</div>';
+  }
+})();
+</script>
+</body>
+</html>
