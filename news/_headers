@@ -1,0 +1,19 @@
+# ─────────────────────────────────────────────────────────────
+#  군산교회 교회소식 — Netlify 응답 헤더 설정
+#  이 파일은 이름을 바꾸거나 확장자를 붙이면 작동하지 않습니다.
+#  반드시 "_headers" (확장자 없음) 그대로 두십시오.
+# ─────────────────────────────────────────────────────────────
+
+/*
+  # 검색엔진 색인 금지 (구글·네이버·다음 검색 결과에 노출되지 않음)
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+
+  # 매주 새 호를 올렸을 때 성도 휴대폰에 지난 호가 남아 보이는 것을 방지
+  Cache-Control: public, max-age=0, must-revalidate
+
+  # 다른 사이트가 우리 소식지를 몰래 창 안에 끼워 넣는 것을 차단
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+
+  # 소식지에서 외부 링크로 나갈 때 우리 주소가 전달되지 않게 함
+  Referrer-Policy: no-referrer
