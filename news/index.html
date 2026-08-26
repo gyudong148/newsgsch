@@ -7,6 +7,16 @@
 <meta name="theme-color" content="#0B2E4A">
 <title>군산교회 교회소식</title>
 
+<!-- 홈 화면에 추가했을 때 — 이름은 「웹소식지」, 아이콘은 교회 사진 -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="웹소식지">
+<meta name="application-name" content="웹소식지">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- 폰트는 화면 표시를 막지 않도록 비동기로 불러옵니다.
@@ -690,9 +700,9 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
     if (has(c.verse)) add(sec, el("p", "cover__verse", c.verse));
 
     var strip = el("div", "cover__strip");
-    add(strip, el("span", null, c.date || ""));
-    add(strip, el("span", "cover__rule"));
     add(strip, el("span", null, c.issue || ""));
+    add(strip, el("span", "cover__rule"));
+    add(strip, el("span", null, c.date || ""));
     add(sec, strip);
 
     var wrap = el("div");
@@ -727,10 +737,14 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   function buildToday() {
     var t = C.today || {};
     var sec = el("section"); sec.id = "today";
-    add(sec, SectionHeader("Today", "금일 말씀 및 찬양", t.meta));
+    add(sec, SectionHeader("Today", "금일 말씀 및 찬양"));
     var card = el("div", "card-hairline");
     var rows = el("div", "inforows");
-    (t.rows || []).forEach(function (r) { add(rows, InfoRow(r.label, r.value, r.note)); });
+    /* 내용이 비어 있는 줄은 내보내지 않는다 (외부 설교가 없는 주 등) */
+    (t.rows || []).forEach(function (r) {
+      if (!has(r.value) && !has(r.note)) return;
+      add(rows, InfoRow(r.label, r.value, r.note));
+    });
     return add(sec, add(card, rows));
   }
 
@@ -741,12 +755,15 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
     var sec = el("section"); sec.id = "verse";
     add(sec, SectionHeader("Memory Verses", "성구암송", "개역한글"));
 
+    /* 맨 위 큰 성구 — 적지 않으면 가로줄까지 통째로 나오지 않는다 */
     var mv = m.mainVerse || {};
-    var fig = el("figure", "verse");
-    add(fig, el("div", "verse__rule"));
-    add(fig, el("blockquote", "verse__quote", mv.text || ""));
-    if (has(mv.ref)) add(fig, el("figcaption", "verse__ref", mv.ref));
-    add(sec, fig);
+    if (has(mv.text)) {
+      var fig = el("figure", "verse");
+      add(fig, el("div", "verse__rule"));
+      add(fig, el("blockquote", "verse__quote", mv.text));
+      if (has(mv.ref)) add(fig, el("figcaption", "verse__ref", mv.ref));
+      add(sec, fig);
+    }
 
     var tabs = el("div", "tabs");
     tabs.setAttribute("role", "tablist");
@@ -793,7 +810,7 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   function buildMeetings() {
     var all = C.meetings || [];
     var sec = el("section"); sec.id = "meetings";
-    add(sec, SectionHeader("Weekly Services", "정기모임", "행 2:46"));
+    add(sec, SectionHeader("Weekly Services", "정기모임"));
 
     var list = el("div");
     var open = false;
@@ -870,7 +887,7 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   function buildRevival() {
     var r = C.revival || {};
     var sec = el("section"); sec.id = "revival";
-    add(sec, SectionHeader("Evangelistic Meeting", "전도집회 안내", "딤후 4:2"));
+    add(sec, SectionHeader("Evangelistic Meeting", "전도집회 안내"));
 
     var rt = r.retreat || {};
     if (rt.show) {
@@ -946,7 +963,7 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   function buildNews() {
     var n = C.news || {};
     var sec = el("section"); sec.id = "news";
-    add(sec, SectionHeader("Church News", "교회단신", "롬 12:11"));
+    add(sec, SectionHeader("Church News", "교회단신"));
     if (has(n.photo)) {
       add(sec, PhotoFrame(n.photo, n.photoOverlay, n.photoCaption));
     }
@@ -1104,7 +1121,7 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   function buildMissions() {
     var m = C.missions || {};
     var sec = el("section"); sec.id = "missions";
-    add(sec, SectionHeader("World Missions", "해외 후원교회", "행 1:8"));
+    add(sec, SectionHeader("World Missions", "해외 후원교회"));
     if (has(m.photo)) {
       add(sec, PhotoFrame(m.photo, m.photoOverlay, m.photoCaption));
     }
@@ -1217,6 +1234,30 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   }
 
   /* ── 13. 푸터 ────────────────────────────────────────────── */
+  /* ── 보이는 순서 ────────────────────────────────────────── */
+  var BUILD = {
+    notice: buildNotice, today: buildToday, revival: buildRevival,
+    life: buildGallery, news: buildNews, plan: buildPlan,
+    meetings: buildMeetings, serving: buildServing, offering: buildOffering,
+    missions: buildMissions, verse: buildMemory, goal: buildAim
+  };
+  var ORDER_DEFAULT = ["notice", "today", "revival", "life", "news", "plan",
+                       "meetings", "serving", "offering", "missions", "verse", "goal"];
+  /* 아래쪽 이동 단추에 올릴 수 있는 섹션과 그 이름 */
+  var NAV_LABEL = { revival: "집회", life: "사진", news: "단신",
+                    plan: "계획", meetings: "모임", verse: "암송" };
+  function ORDER() {
+    var want = ((C.layout || {}).order) || [];
+    var out = [], seen = {};
+    want.forEach(function (k) {
+      if (BUILD[k] && !seen[k]) { out.push(k); seen[k] = true; }
+    });
+    ORDER_DEFAULT.forEach(function (k) {
+      if (!seen[k]) { out.push(k); seen[k] = true; }
+    });
+    return out;
+  }
+
   function buildFooter() {
     var f = C.footer || {};
     var foot = el("footer", "foot");
@@ -1231,32 +1272,26 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
   }
 
   /* ── 14. 하단 내비게이션 ─────────────────────────────────── */
-  var NAV = [
-    { id: "hero", label: "표지" },
-    { id: "revival", label: "집회" },
-    { id: "news", label: "단신" },
-    { id: "plan", label: "계획" },
-    { id: "meetings", label: "모임" },
-    { id: "verse", label: "암송" }
-  ];
-  var SPY = ["hero", "notice", "today", "revival", "life", "news", "plan",
-             "meetings", "serving", "offering", "missions", "verse", "goal"];
-  var SPY_MAP = {
-    hero: "hero", notice: "hero", today: "hero",
-    revival: "revival", life: "life",
-    news: "news", plan: "plan",
-    meetings: "meetings", serving: "meetings", offering: "meetings", missions: "meetings",
-    verse: "verse", goal: "verse"
-  };
-  /* 교회 활동 사진이 있으면 「집회」와 「단신」 사이에 '사진'을 끼운다 */
-  if (document.documentElement) {
+  /* 아래쪽 이동 단추 — 섹션 순서를 그대로 따라간다 */
+  var NAV = [{ id: "hero", label: "표지" }];
+  var SPY = ["hero"];
+  var SPY_MAP = { hero: "hero" };
+  (function () {
     var g0 = C.gallery || {};
     var hasLife = g0.show && (g0.albums || []).some(function (a) {
       return a && a.show !== false && (a.photos || []).filter(has).length > 0;
     });
-    if (hasLife) NAV.splice(2, 0, { id: "life", label: "사진" });
-    else SPY_MAP.life = "revival";
-  }
+    var anchor = "hero";
+    ORDER().forEach(function (k) {
+      if (k === "life" && !hasLife) { SPY_MAP.life = anchor; return; }
+      if (NAV_LABEL[k]) {
+        NAV.push({ id: k, label: NAV_LABEL[k] });
+        anchor = k;
+      }
+      SPY.push(k);
+      SPY_MAP[k] = anchor;
+    });
+  })();
 
   function buildNav() {
     var wrap = el("div", "navwrap");
@@ -1307,20 +1342,8 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:8px}
     add(body, buildCover());
 
     var sections = el("div", "sections");
-    add(sections,
-      buildNotice(),      /* 광고 (있을 때만) */
-      buildToday(),       /* 금일 말씀 및 찬양 */
-      buildRevival(),     /* 전도집회 일정 */
-      buildGallery(),     /* 이번주 활동 */
-      buildNews(),        /* 교회단신 */
-      buildPlan(),        /* 월간계획 (주요 일정 → 달력) */
-      buildMeetings(),    /* 정기모임 */
-      buildServing(),     /* 안내 및 봉사 */
-      buildOffering(),    /* 헌금 */
-      buildMissions(),    /* 해외 후원교회 */
-      buildMemory(),      /* 성구암송 */
-      buildAim()          /* 푯대 말씀 */
-    );
+    /* layout.order 에 적힌 순서대로 — 없거나 빠진 것은 기본 순서로 채운다 */
+    ORDER().forEach(function (k) { add(sections, BUILD[k]()); });
     add(body, sections);
     add(body, buildFooter());
     add(page, body);
