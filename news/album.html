@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="theme-color" id="tcolor" content="#0B2E4A">
+<title>교회 앨범</title>
+<link rel="apple-touch-icon" href="images/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- 그 주의 내용과 「우리 교회 설정」(색·글씨체·로고)이 담긴 파일 -->
+<script src="content.js"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   우리 교회 설정 적용 — content.js 의 church / theme 값을 읽어
+   색·글씨체·교회 이름을 이 소식지에 입힙니다.
+   설정이 없으면 기본값(남색 · IBM Plex Sans KR)이 쓰입니다.
+   ※ 이 파일은 손대지 마시고 「소식지 만들기」 화면에서 고치십시오.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var FONTS = {
+    plex:     { css:"IBM+Plex+Sans+KR:wght@500;700",
+                stack:'"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif' },
+    noto:     { css:"Noto+Sans+KR:wght@500;700",
+                stack:'"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif' },
+    gothica1: { css:"Gothic+A1:wght@500;700",
+                stack:'"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif' },
+    nanum:    { css:"Nanum+Gothic:wght@400;700",
+                stack:'"Nanum Gothic","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif' },
+    myeongjo: { css:"Nanum+Myeongjo:wght@400;700",
+                stack:'"Nanum Myeongjo","AppleMyungjo","Batang",serif' },
+    gowun:    { css:"Gowun+Batang:wght@400;700",
+                stack:'"Gowun Batang","AppleMyungjo","Batang",serif' }
+  };
+
+  var T = {}, K = {};
+  try { T = (CONTENT && CONTENT.theme)  || {}; } catch (e) {}
+  try { K = (CONTENT && CONTENT.church) || {}; } catch (e) {}
+
+  function hex(v, dflt) {
+    v = String(v == null ? "" : v).trim();
+    return /^#[0-9a-fA-F]{6}$/.test(v) ? v : dflt;
+  }
+  var main  = hex(T.main,  "#1D4E73");   /* 대표색 — 제목·글자 */
+  var point = hex(T.point, "#3FA9DC");   /* 강조색 — 작은 라벨·밑줄 */
+  var deep  = hex(T.deep,  "#0B2E4A");   /* 표지 어두운 색 */
+
+  function rgb(h) {
+    return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+  }
+  function tint(h, ratio) {              /* 흰색과 섞어 아주 연한 배경색을 만든다 */
+    var c = rgb(h), o = "#";
+    for (var i = 0; i < 3; i++) {
+      var v = Math.round(c[i] * ratio + 255 * (1 - ratio));
+      o += ("0" + v.toString(16)).slice(-2);
+    }
+    return o;
+  }
+  function rgba(h, a) { var c = rgb(h); return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; }
+
+  var S = document.documentElement.style;
+  S.setProperty("--color-navy",     main);
+  S.setProperty("--color-sky",      point);
+  S.setProperty("--color-deep",     deep);
+  S.setProperty("--color-navy-050", tint(main,  0.075));
+  S.setProperty("--color-sky-050",  tint(point, 0.085));
+  S.setProperty("--border-soft",    rgba(main, 0.16));
+  S.setProperty("--border-faint",   rgba(main, 0.10));
+  S.setProperty("--overlay-deep",   rgba(deep, 0.96));
+  S.setProperty("--gradient-spirit",  "linear-gradient(180deg," + point + " 0%," + deep + " 100%)");
+  S.setProperty("--gradient-protect", "linear-gradient(180deg," + rgba(deep,0) + " 0%," + rgba(deep,0.78) + " 100%)");
+  S.setProperty("--shadow-card", "0 1px 2px " + rgba(deep,0.06) + ",0 6px 18px " + rgba(deep,0.08));
+  S.setProperty("--shadow-nav",  "0 -1px 0 var(--border-hairline),0 -8px 24px " + rgba(deep,0.06));
+
+  /* 성도님이 고르신 글자 크기 — 첫 그림 전에 넣어야 깜빡이지 않습니다 */
+  try {
+    var FSV = { s:0.9, m:1, l:1.2, xl:1.45 };
+    var fk = localStorage.getItem("church-fs");
+    if (FSV[fk]) S.setProperty("--fs-scale", String(FSV[fk]));
+  } catch (e) {}
+
+  var tc = document.getElementById("tcolor");
+  if (tc) tc.setAttribute("content", deep);
+
+  /* 글씨체 — 화면 표시를 막지 않는 방식으로 불러옵니다.
+     인터넷이 느리거나 구글 폰트가 막혀도 소식지는 즉시 뜹니다. */
+  var f = FONTS[T.font] || FONTS.plex;
+  S.setProperty("--font-sans",  f.stack);
+  S.setProperty("--font-serif", f.stack);
+  var url = "https://fonts.googleapis.com/css2?family=" + f.css + "&display=swap";
+  var pre = document.createElement("link");
+  pre.rel = "preload"; pre.as = "style"; pre.href = url;
+  document.head.appendChild(pre);
+  var css = document.createElement("link");
+  css.rel = "stylesheet"; css.media = "print"; css.href = url;
+  css.onload = function () { css.media = "all"; };
+  document.head.appendChild(css);
+
+  if (K.name) document.title = String(K.name) + " 교회소식";
+})();
+</script>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   교회 앨범 — 소식지와 같은 디자인 기준값을 씁니다.
+   색·글씨체는 content.js 의 theme 값으로 자동으로 덮어써집니다.
+   (이 파일은 손대지 마시고 「소식지 만들기」에서 고치십시오)
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --color-navy:#1D4E73; --color-sky:#3FA9DC; --color-deep:#0B2E4A;
+  --color-white:#FFFFFF; --color-slate:#38424C; --color-gray-dark:#8C8C8C;
+  --color-gray-light:#E5E5E5;
+  --color-sky-050:#EEF7FC; --color-navy-050:#EEF2F6;
+
+  --surface-page:var(--color-white);
+  --surface-muted:var(--color-navy-050);
+  --surface-tint:var(--color-sky-050);
+  --surface-dark:var(--color-deep);
+
+  --text-strong:var(--color-navy);
+  --text-body:var(--color-slate);
+  --text-muted:var(--color-gray-dark);
+  --text-on-dark:var(--color-white);
+
+  --border-hairline:var(--color-gray-light);
+  --border-soft:rgba(29,78,115,.16);
+  --border-faint:rgba(29,78,115,.10);
+  --overlay-deep:rgba(11,46,74,.96);
+
+  --font-serif:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --font-sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+
+  --fs-scale:1;
+  --fs-display:calc(40px * var(--fs-scale)); --fs-heading:calc(22px * var(--fs-scale)); --fs-body:calc(16px * var(--fs-scale)); --fs-caption:calc(16px * var(--fs-scale));
+  --lh-tight:1.15; --lh-title:1.3; --lh-body:1.8;
+  --tracking-label:.12em;
+
+  --page-gutter:20px;
+  --radius-md:8px; --radius-lg:14px;
+  --shadow-card:0 1px 2px rgba(11,46,74,.06),0 6px 18px rgba(11,46,74,.08);
+  --shadow-nav:0 -1px 0 var(--border-hairline),0 -8px 24px rgba(11,46,74,.06);
+  --shadow-inset-hairline:inset 0 0 0 1px var(--border-hairline);
+  --ease-standard:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:120ms; --dur-slow:420ms;
+}
+@media (prefers-reduced-motion:reduce){
+  :root{--dur-fast:0ms; --dur-slow:0ms}
+  *{animation-duration:0ms!important; transition-duration:0ms!important}
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; background:var(--surface-muted); color:var(--text-body);
+  font-family:var(--font-sans); font-size:var(--fs-body); font-weight:500;
+  line-height:var(--lh-body); -webkit-font-smoothing:antialiased; -webkit-text-size-adjust:100%;
+  /* 글자를 아주 크게 쓰시는 분 화면에서 옆으로 밀려나지 않도록 —
+     다른 방법이 없을 때만 낱말 안에서 줄을 바꿉니다 (평소에는 영향이 없습니다) */
+  overflow-wrap:anywhere;
+}
+h1,h2,h3{font-family:var(--font-serif); color:var(--text-strong); line-height:var(--lh-title); margin:0}
+p{margin:0; text-wrap:pretty}
+button{font:inherit}
+a{color:inherit}
+::-webkit-scrollbar{height:0; width:0}
+@keyframes lwmIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
+.page{
+  max-width:420px; margin:0 auto; min-height:100vh;
+  background:var(--surface-page); box-shadow:var(--shadow-card);
+  display:flex; flex-direction:column; padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));
+  animation:lwmIn var(--dur-slow) var(--ease-standard);
+}
+
+/* ── 맨 위 탭 (소식지 · 말씀 페이지 · 앨범) — 소식지와 똑같은 모양 ── */
+.tabbar{
+  position:sticky; top:0; z-index:60; flex-direction:column; align-items:center; gap:8px;
+  background:rgba(255,255,255,.94); backdrop-filter:saturate(140%) blur(12px);
+  border-bottom:1px solid var(--border-hairline);
+  /* 홈 화면 앱으로 열었을 때 시계·배터리 줄에 탭이 가리지 않도록 위를 비운다 */
+  padding:calc(8px + env(safe-area-inset-top,0px)) var(--page-gutter) 8px;
+  display:flex; justify-content:center;
+}
+.pagetabs{
+  display:flex; gap:3px; width:100%; max-width:360px;
+  background:var(--surface-muted); padding:3px; border-radius:11px;
+}
+.pagetabs a,.pagetabs .fstoggle{
+  flex:1 1 0; min-width:0; text-align:center; text-decoration:none;
+  border:0; background:transparent; cursor:pointer;
+  border-radius:8px; padding:8px 4px; line-height:1.25;
+  /* 맨 위 줄은 「내용」이 아니라 「길잡이」이므로 글자 크기 배수를 따르지 않습니다.
+     (휴대폰 자체의 글자 크기 설정은 여기에도 그대로 적용됩니다) */
+  font-family:var(--font-sans); font-size:14px; font-weight:700;
+  color:var(--text-muted); word-break:keep-all;
+  transition:background var(--dur-fast) var(--ease-standard);
+}
+.pagetabs a:hover,.pagetabs .fstoggle:hover{color:var(--text-strong)}
+.pagetabs a[aria-current="page"],.pagetabs .fstoggle[aria-expanded="true"]{
+  background:var(--surface-page); color:var(--text-strong);
+  box-shadow:0 1px 3px rgba(11,46,74,.16);
+}
+
+/* ── 머리 ── */
+.head{
+  background:var(--surface-dark); color:var(--text-on-dark);
+  padding:30px var(--page-gutter) 32px;
+  display:flex; flex-direction:column; gap:16px;
+}
+.logo{display:flex; flex-direction:row; align-items:center; gap:12px}
+.logo__img{object-fit:contain; display:block}
+.logo__text{display:flex; flex-direction:column; align-items:flex-start; gap:3px}
+.logo__ko{
+  font-family:var(--font-serif); font-weight:700; color:var(--color-white);
+  letter-spacing:-.01em; line-height:1.1; transform:scaleX(.95); transform-origin:left;
+}
+.eyebrow{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:var(--tracking-label); text-transform:uppercase; color:var(--color-sky);
+}
+.head__t{
+  font-family:var(--font-serif); font-weight:700; font-size:var(--fs-display);
+  line-height:var(--lh-tight); letter-spacing:-.02em; color:var(--color-white); word-break:keep-all;
+}
+.head__p{
+  font-size:var(--fs-body); line-height:var(--lh-body); color:rgba(255,255,255,.78);
+  white-space:pre-line; word-break:keep-all;
+}
+
+/* ── 묶음 고르는 칩 — 넘치면 아래로 줄이 바뀝니다 (잘리지 않습니다) ── */
+.chips{
+  display:flex; flex-wrap:wrap; gap:8px; padding:16px var(--page-gutter);
+  border-bottom:1px solid var(--border-hairline); background:var(--surface-page);
+}
+.chip{
+  border:1px solid var(--border-soft); background:#fff;
+  border-radius:999px; padding:9px 16px; cursor:pointer; max-width:100%;
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  color:var(--text-strong); word-break:keep-all; text-align:left;
+  transition:background var(--dur-fast) var(--ease-standard);
+}
+.chip:hover{background:var(--surface-tint)}
+.chip[aria-selected="true"]{background:var(--color-navy); border-color:var(--color-navy); color:#fff}
+.chip small{font-weight:500; opacity:.7; margin-left:5px}
+
+/* 아래 단계 칩 (강사·집회별 묶음) */
+.chips--sub{
+  padding:14px var(--page-gutter) 4px; border-bottom:0; gap:7px;
+}
+.chips--sub .chip{
+  padding:7px 13px; font-size:var(--fs-caption); font-weight:500;
+  background:var(--surface-muted); border-color:transparent; color:var(--text-body);
+}
+.chips--sub .chip[aria-selected="true"]{
+  background:var(--color-sky-050); border-color:var(--color-sky); color:var(--color-navy); font-weight:700;
+}
+
+.body{padding:26px var(--page-gutter) 40px; display:flex; flex-direction:column; gap:18px}
+.grp__head{display:flex; flex-direction:column; gap:8px}
+.grp__rule{width:40px; height:3px; background:var(--color-navy)}
+.grp__t{font-family:var(--font-serif); font-size:var(--fs-heading); font-weight:700; color:var(--text-strong)}
+.grp__note{font-size:var(--fs-body); color:var(--text-body); white-space:pre-line; word-break:keep-all}
+.grp__all{
+  align-self:flex-start; display:inline-flex; align-items:center; gap:8px;
+  border:1px solid var(--color-navy); background:#fff; color:var(--color-navy);
+  border-radius:999px; padding:10px 18px; cursor:pointer;
+  font-size:var(--fs-caption); font-weight:700; text-decoration:none;
+}
+.grp__all:hover{background:var(--surface-tint)}
+
+.empty{
+  border:1px dashed var(--border-soft); border-radius:var(--radius-lg);
+  padding:34px 22px; text-align:center; color:var(--text-muted);
+  font-size:var(--fs-body); line-height:1.8; word-break:keep-all; white-space:pre-line;
+}
+
+/* ── 오류 안내 ── */
+.oops{
+  max-width:420px; margin:0 auto; min-height:100vh; background:#fff;
+  padding:48px 24px; display:flex; flex-direction:column; gap:16px; justify-content:center;
+}
+.oops h1{font-size:calc(22px * var(--fs-scale))}
+.oops p{font-size:calc(16px * var(--fs-scale)); line-height:1.8; color:var(--text-body)}
+.oops code{background:#EEF2F6; color:#1D4E73; padding:2px 6px; border-radius:4px; font-size:calc(16px * var(--fs-scale)); word-break:break-all}
+.oops__box{background:#fff8ea; border:1px solid #e8d5a8; border-radius:8px; padding:14px 16px; font-size:calc(16px * var(--fs-scale)); line-height:1.75; color:#7a5a1a}
+
+/* ── 사진 격자 ── */
+.al__meta{
+  font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+  letter-spacing:var(--tracking-label); color:var(--color-sky);
+}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.grid--one{grid-template-columns:1fr}
+.item{
+  border:0; padding:0; margin:0; cursor:zoom-in; overflow:hidden;
+  border-radius:var(--radius-md); aspect-ratio:1/1; background:var(--surface-muted);
+  box-shadow:var(--shadow-inset-hairline);
+}
+.grid--one .item{aspect-ratio:4/3}
+.item img{width:100%; height:100%; object-fit:cover; display:block}
+.al__note{font-size:var(--fs-body); color:var(--text-body); line-height:var(--lh-body); white-space:pre-line; word-break:keep-all}
+.al__count{font-size:var(--fs-caption); color:var(--text-muted)}
+
+/* ── 사진 크게 보기 ── */
+.lb{
+  position:fixed; inset:0; z-index:200; background:var(--overlay-deep);
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  padding:56px 12px calc(64px + env(safe-area-inset-bottom,0px));
+}
+.lb.on{display:flex}
+.lb__img{max-width:100%; max-height:100%; object-fit:contain; display:block; border-radius:4px}
+.lb__top{
+  position:absolute; top:0; left:0; right:0; display:flex; align-items:center; gap:12px;
+  padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;
+}
+.lb__cap{
+  flex:1; min-width:0; color:#fff; font-size:var(--fs-caption); font-weight:700;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.lb__n{color:rgba(255,255,255,.72); font-size:var(--fs-caption); white-space:nowrap}
+.lb__x{
+  flex:0 0 auto; width:38px; height:38px; border-radius:50%; cursor:pointer;
+  border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.12);
+  color:#fff; font-size:calc(20px * var(--fs-scale)); line-height:1;
+}
+.lb__bottom{
+  position:absolute; left:0; right:0; bottom:0; display:flex; gap:10px;
+  padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));
+}
+.lb__b{
+  flex:1; min-height:46px; border-radius:999px; cursor:pointer;
+  border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.12);
+  color:#fff; font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700;
+}
+.lb__b:disabled{opacity:.35; cursor:default}
+
+/* ── 글자 크기 고르기 ─────────────────────────────────────────
+   맨 위 줄의 「글자크기」를 누르면 아래에 네 가지가 펼쳐집니다.
+   평소에는 접혀 있어 맨 위 줄 높이가 전과 같습니다.
+   성도님 휴대폰의 글자 크기 설정을 막지 않고, 그 위에 --fs-scale 이 곱해집니다.
+   이 줄의 글자만 배수를 따르지 않습니다(맨 위 줄이 화면을 덮지 않도록). */
+.fspanel{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:5px;
+  width:100%; max-width:360px;
+}
+.fspanel[hidden]{display:none}
+.fsbtn{
+  flex:1 1 auto; font-family:var(--font-sans); font-size:14px; font-weight:700; line-height:1;
+  min-height:38px; padding:0 14px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--border-soft); background:var(--surface-page);
+  color:var(--text-muted); white-space:nowrap;
+  transition:background var(--dur-fast) var(--ease-standard);
+}
+.fsbtn:hover{background:var(--surface-muted)}
+.fsbtn[aria-pressed="true"]{background:var(--color-navy); border-color:var(--color-navy); color:#fff}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function add(parent) {
+    for (var i = 1; i < arguments.length; i++) if (arguments[i]) parent.appendChild(arguments[i]);
+    return parent;
+  }
+  function has(v) { return v != null && String(v).trim() !== ""; }
+
+  if (typeof CONTENT === "undefined") {
+    document.getElementById("app").outerHTML =
+      '<div class="oops">' +
+      '<h1>앨범을 읽지 못했습니다</h1>' +
+      '<p><code>content.js</code> 파일이 이 페이지와 같은 폴더에 없거나 문법 오류가 있습니다.</p>' +
+      '<div class="oops__box">「소식지 내려받기 (.zip)」로 받은 파일을 통째로 올리셨는지 확인해 주십시오.</div>' +
+      '</div>';
+    return;
+  }
+
+  var C = CONTENT;
+  var G = C.gallery || {};
+  var K = C.church || {};
+  var F = C.footer || {};
+
+  /* ── 맨 위 탭 (소식지 · 말씀 페이지 · 앨범) ─────────────────
+     소식지 · 말씀 페이지 · 앨범 세 파일이 똑같은 코드를 씁니다.
+     내용이 없는 페이지는 탭에 나오지 않고, 남는 것이 하나면 탭 자체가 없습니다. */
+  function tabList() {
+    var out = [{ page: "index.html", label: "소식지" }];
+
+    var s = C.sermons || {};
+    var sOk = !!s.show && (s.playlists || []).some(function (p) {
+      if (!p || p.show === false) return false;
+      if (has(p.listId) || has(p.listUrl)) return true;
+      var gs = (p.groups && p.groups.length) ? p.groups : [{ videos: p.videos || [] }];
+      return gs.some(function (g) {
+        if (!g || g.show === false) return false;
+        if (has(g.listId) || has(g.listUrl)) return true;
+        return (g.videos || []).some(function (v) { return v && (has(v.id) || has(v.url)); });
+      });
+    });
+    if (sOk) out.push({ page: "sermon.html", label: s.navLabel || "말씀 페이지" });
+
+    var g0 = C.gallery || {};
+    var gOk = !!g0.show && (g0.albums || []).some(function (a) {
+      return a && a.show !== false && (a.photos || []).filter(has).length > 0;
+    });
+    if (gOk) out.push({ page: "album.html", label: g0.navLabel || "앨범" });
+
+    return out;
+  }
+  var TAB_H = 0;
+
+  /* ── 글자 크기 (성도님 폰 설정 위에 곱해집니다) ──────────────
+     폰 글자 설정을 막지 않습니다. 이미 크게 쓰시는 분은 손대실 것이 없고,
+     더 키우거나 줄이고 싶은 분만 누르시면 됩니다. 고른 값은 그 기기에 남습니다. */
+  var FS_KEY = "church-fs";
+  var FS_STEPS = [
+    { key: "s",  label: "작게",     v: 0.9  },
+    { key: "m",  label: "보통",     v: 1    },
+    { key: "l",  label: "크게",     v: 1.2  },
+    { key: "xl", label: "아주 크게", v: 1.45 }
+  ];
+  function fsCurrent() {
+    var k = "";
+    try { k = localStorage.getItem(FS_KEY) || ""; } catch (e) {}
+    for (var i = 0; i < FS_STEPS.length; i++) if (FS_STEPS[i].key === k) return FS_STEPS[i];
+    return FS_STEPS[1];
+  }
+  function fsApply(step) {
+    document.documentElement.style.setProperty("--fs-scale", String(step.v));
+    try { localStorage.setItem(FS_KEY, step.key); } catch (e) {}
+  }
+  /* 「글자크기」를 눌렀을 때 펼쳐지는 줄 */
+  function buildFontPanel() {
+    var cur = fsCurrent();
+    fsApply(cur);
+    var box = el("div", "fspanel");
+    box.hidden = true;
+    FS_STEPS.forEach(function (s) {
+      var b = el("button", "fsbtn", s.label);
+      b.type = "button";
+      b.setAttribute("aria-pressed", s.key === cur.key ? "true" : "false");
+      b.onclick = function () {
+        fsApply(s);
+        Array.prototype.forEach.call(box.children, function (c, i) {
+          c.setAttribute("aria-pressed", FS_STEPS[i].key === s.key ? "true" : "false");
+        });
+        measureTabs();
+      };
+      add(box, b);
+    });
+    return box;
+  }
+
+  /* 맨 위 줄 — 「글자크기 · 소식지 · 말씀 · 앨범」
+     「글자크기」를 누르면 그 아래에 크기 고르는 줄이 펼쳐집니다.
+     접혀 있을 때는 맨 위 줄 높이가 전과 같습니다. */
+  function buildTabs(current) {
+    var bar = el("div", "tabbar");
+    var tabs = el("div", "pagetabs");
+    var panel = buildFontPanel();
+
+    var toggle = el("button", "fstoggle", "글자크기");
+    toggle.type = "button";
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.onclick = function () {
+      var willOpen = panel.hidden;
+      panel.hidden = !willOpen;
+      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      measureTabs();
+    };
+    add(tabs, toggle);
+
+    /* 내용이 있는 페이지가 둘 이상일 때만 페이지 탭을 붙입니다 */
+    var list = tabList();
+    if (list.length >= 2) {
+      list.forEach(function (it) {
+        var a = el("a", null, it.label);
+        a.href = it.page;
+        if (it.page === current) a.setAttribute("aria-current", "page");
+        add(tabs, a);
+      });
+    }
+    return add(bar, tabs, panel);
+  }
+  function measureTabs() {
+    var b = document.querySelector(".tabbar");
+    TAB_H = b ? Math.round(b.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty("--tabh", TAB_H + "px");
+  }
+
+  function Logo(size) {
+    var root = el("div", "logo"), n = 0;
+    if (K.logoShow !== false && has(K.logo)) {
+      var img = el("img", "logo__img");
+      img.src = K.logo;
+      img.alt = (K.logoKo || K.name || "교회") + " 심볼";
+      img.width = size; img.height = size;
+      img.style.width = size + "px"; img.style.height = size + "px";
+      img.onerror = function () { img.style.display = "none"; };
+      add(root, img); n++;
+    }
+    if (has(K.logoKo)) {
+      var txt = el("div", "logo__text");
+      var ko = el("span", "logo__ko", K.logoKo);
+      ko.style.fontSize = Math.max(12, Math.round(size * 0.38)) + "px";
+      add(txt, ko); add(root, txt); n++;
+    }
+    return n ? root : null;
+  }
+
+  var ALBUMS = (G.albums || []).filter(function (a) {
+    return a && a.show !== false && (a.photos || []).filter(has).length > 0;
+  }).map(function (a) {
+    return {
+      title: a.title || "", date: a.date || "", note: a.note || "",
+      photos: (a.photos || []).filter(has)
+    };
+  });
+
+  /* ── 사진 크게 보기 ── */
+  var LB = { list: [], i: 0, cap: "" };
+  var lbEl, lbImg, lbCap, lbN, lbPrev, lbNext;
+  function buildLightbox() {
+    lbEl = el("div", "lb");
+    var top = el("div", "lb__top");
+    lbCap = el("span", "lb__cap");
+    lbN = el("span", "lb__n");
+    var x = el("button", "lb__x", "×");
+    x.type = "button"; x.setAttribute("aria-label", "닫기");
+    x.onclick = closeLb;
+    add(top, lbCap, lbN, x);
+
+    lbImg = el("img", "lb__img"); lbImg.alt = "";
+
+    var bottom = el("div", "lb__bottom");
+    lbPrev = el("button", "lb__b", "‹ 이전");
+    lbNext = el("button", "lb__b", "다음 ›");
+    lbPrev.type = lbNext.type = "button";
+    lbPrev.onclick = function () { showLb(LB.i - 1); };
+    lbNext.onclick = function () { showLb(LB.i + 1); };
+    add(bottom, lbPrev, lbNext);
+
+    lbEl.onclick = function (e) { if (e.target === lbEl || e.target === lbImg) closeLb(); };
+    add(lbEl, top, lbImg, bottom);
+
+    document.addEventListener("keydown", function (e) {
+      if (!lbEl.classList.contains("on")) return;
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowLeft") showLb(LB.i - 1);
+      else if (e.key === "ArrowRight") showLb(LB.i + 1);
+    });
+    return lbEl;
+  }
+  function showLb(i) {
+    if (i < 0 || i >= LB.list.length) return;
+    LB.i = i;
+    lbImg.src = LB.list[i];
+    lbCap.textContent = LB.cap;
+    lbN.textContent = (i + 1) + " / " + LB.list.length;
+    lbPrev.disabled = (i === 0);
+    lbNext.disabled = (i === LB.list.length - 1);
+  }
+  function openLb(list, i, cap) {
+    LB.list = list; LB.cap = cap || "";
+    lbEl.classList.add("on");
+    document.body.style.overflow = "hidden";
+    showLb(i);
+  }
+  function closeLb() {
+    lbEl.classList.remove("on");
+    document.body.style.overflow = "";
+    lbImg.removeAttribute("src");
+  }
+
+  /* 앨범 하나 그리기 */
+  function buildAlbum(a, host) {
+    host.textContent = "";
+    var head = el("div", "grp__head");
+    add(head, el("div", "grp__rule"));
+    if (has(a.date)) add(head, el("span", "al__meta", a.date));
+    if (has(a.title)) add(head, el("h2", "grp__t", a.title));
+    add(head, el("span", "al__count", a.photos.length + "장"));
+    add(host, head);
+    if (has(a.note)) add(host, el("p", "al__note", a.note));
+
+    var grid = el("div", "grid" + (a.photos.length === 1 ? " grid--one" : ""));
+    a.photos.forEach(function (src, i) {
+      var btn = el("button", "item");
+      btn.type = "button";
+      btn.setAttribute("aria-label", (a.title || "앨범") + " 사진 " + (i + 1) + " 크게 보기");
+      var img = el("img");
+      img.alt = ""; img.loading = "lazy"; img.decoding = "async";
+      img.onerror = function () { btn.remove(); };
+      img.src = src;
+      add(btn, img);
+      btn.onclick = function () { openLb(a.photos, i, a.title || ""); };
+      add(grid, btn);
+    });
+    add(host, grid);
+  }
+
+  /* ── 조립 ── */
+  try {
+    var app = document.getElementById("app");
+    app.textContent = "";
+
+    var page = el("div", "page");
+    add(page, buildTabs("album.html"));
+
+    var head = el("header", "head");
+    add(head, Logo(30));
+    var tb = el("div");
+    tb.style.cssText = "display:flex;flex-direction:column;gap:12px";
+    if (has(F.en)) add(tb, el("span", "eyebrow", F.en));
+    add(tb, el("h1", "head__t", G.title || "교회 앨범"));
+    if (has(G.intro)) add(tb, el("p", "head__p", G.intro));
+    add(head, tb);
+    add(page, head);
+
+    var body = el("div", "body");
+
+    if (!ALBUMS.length) {
+      add(body, el("div", "empty",
+        "아직 올려 둔 사진이 없습니다.\n「소식지 만들기」의 «교회 앨범» 에서 사진을 넣어 주십시오."));
+      add(page, body);
+      add(app, page, buildLightbox());
+    } else if (ALBUMS.length === 1) {
+      add(page, body);
+      add(app, page, buildLightbox());
+      buildAlbum(ALBUMS[0], body);
+    } else {
+      var chips = el("div", "chips");
+      chips.setAttribute("role", "tablist");
+      var cur = 0;
+      function paint() {
+        Array.prototype.forEach.call(chips.children, function (c, i) {
+          c.setAttribute("aria-selected", i === cur ? "true" : "false");
+        });
+        buildAlbum(ALBUMS[cur], body);
+      }
+      ALBUMS.forEach(function (a, i) {
+        var c = el("button", "chip");
+        c.type = "button";
+        c.setAttribute("role", "tab");
+        add(c, document.createTextNode(a.title || ("앨범 " + (i + 1))));
+        add(c, el("small", null, a.photos.length));
+        c.onclick = function () { cur = i; paint(); };
+        add(chips, c);
+      });
+      add(page, chips, body);
+      add(app, page, buildLightbox());
+      paint();
+    }
+
+    if (has(G.note)) {
+      var foot = el("p", "al__note", G.note);
+      foot.style.cssText = "padding:0 var(--page-gutter) 30px; color:var(--text-muted)";
+      add(app.querySelector(".page"), foot);
+    }
+
+    measureTabs();
+    window.addEventListener("resize", measureTabs, { passive: true });
+    document.title = (K.name ? K.name + " " : "") + (G.title || "교회 앨범");
+  } catch (err) {
+    document.getElementById("app").outerHTML =
+      '<div class="oops">' +
+      '<h1>앨범을 그리는 중 문제가 생겼습니다</h1>' +
+      '<div class="oops__box"><b>오류 내용</b><br><code>' +
+      String(err && err.message ? err.message : err).replace(/</g, "&lt;") +
+      '</code></div>' +
+      '<p>「소식지 만들기」의 «교회 앨범» 에서 마지막에 고친 부분을 확인해 주십시오.</p>' +
+      '</div>';
+  }
+})();
+</script>
+</body>
+</html>
