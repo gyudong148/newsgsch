@@ -678,16 +678,7 @@ const CONTENT = {
             "note": "",
             "listUrl": "",
             "listId": "",
-            "videos": [
-              {
-                "url": "https://www.youtube.com/live/NHKCg33D8dE?si=p-kxM3WncI1uCged",
-                "id": "NHKCg33D8dE",
-                "title": "",
-                "date": "",
-                "speaker": "",
-                "note": ""
-              }
-            ]
+            "videos": []
           }
         ]
       },
@@ -828,6 +819,14 @@ const CONTENT = {
             "listUrl": "",
             "listId": "",
             "videos": [
+              {
+                "url": "https://youtu.be/WjrxS-opdP0?si=DVTcDGepNMSs3WfB",
+                "id": "WjrxS-opdP0",
+                "title": "사도 바울의 교회를 위한 기도",
+                "date": "2026.09.13",
+                "speaker": "이경도 목사",
+                "note": ""
+              },
               {
                 "url": "https://youtu.be/b9f1vTfm6ZM?si=oonyZs05P3Jwu14d",
                 "id": "b9f1vTfm6ZM",
