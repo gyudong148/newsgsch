@@ -6,8 +6,8 @@
 const CONTENT = {
   "cover": {
     "title": "교회소식",
-    "date": "2026. 9. 27",
-    "issue": "제35권 39호",
+    "date": "2026. 10. 4",
+    "issue": "제35권 40호",
     "verse": "항상 기뻐하라 쉬지 말고 기도하라 범사에 감사하라 — 살전 5:16-18",
     "theme": "light",
     "photo": ""
@@ -27,7 +27,7 @@ const CONTENT = {
     }
   ],
   "today": {
-    "meta": "2026. 9. 20",
+    "meta": "2026. 10. 4",
     "rows": [
       {
         "label": "금일 말씀",
@@ -36,8 +36,8 @@ const CONTENT = {
       },
       {
         "label": "금일 찬양",
-        "value": "성가",
-        "note": "이 기쁜 소식을"
+        "value": "찬송 361",
+        "note": "주의 주실 화평"
       },
       {
         "label": "외부 설교",
@@ -56,20 +56,20 @@ const CONTENT = {
       {
         "label": "지난주",
         "topic": "그리스도에 대하여",
-        "ref": "이사야 9:6",
-        "text": "이는 한 아기가 우리에게 났고 한 아들을 우리에게 주신 바 되었는데 그 어깨에는 정사를 메었고 그 이름은 기묘자라, 모사라, 전능하신 하나님이라, 영존하시는 아버지라, 평강의 왕이라 할 것임이라"
-      },
-      {
-        "label": "이번주",
-        "topic": "그리스도에 대하여",
         "ref": "누가복음 1:35",
         "text": "천사가 대답하여 가로되 성령이 네게 임하시고 지극히 높으신 이의 능력이 너를 덮으시리니 이러므로 나실 바 거룩한 자는 하나님의 아들이라 일컬으리라"
       },
       {
-        "label": "다음주",
+        "label": "이번주",
         "ref": "고린도후서 5:21",
         "text": "하나님이 죄를 알지도 못하신 자로 우리를 대신하여 죄를 삼으신 것은 우리로 하여금 저의 안에서 하나님의 의가 되게 하려 하심이니라",
         "topic": "그리스도에 대하여"
+      },
+      {
+        "label": "다음주",
+        "topic": "그리스도에 대하여",
+        "ref": "히브리서 7:24~25",
+        "text": "예수는 영원히 계시므로 그 제사 직분도 갈리지 아니하나니 그러므로 자기를 힘입어 하나님께 나아가는 자들을 온전히 구원하실 수 있으니 이는 그가 항상 살아서 저희를 위하여 간구하심이니라"
       }
     ],
     "openTab": 1
@@ -182,43 +182,6 @@ const CONTENT = {
   "serving": {
     "weeks": [
       {
-        "label": "9월 27일",
-        "rows": [
-          [
-            "현관 안내 (1층) 형제",
-            "11구역 형제"
-          ],
-          [
-            "현관 안내 (1층) 자매",
-            "11구역 자매"
-          ],
-          [
-            "대강당 자리 안내",
-            "김한b, 채수효b"
-          ],
-          [
-            "대강당 자리 안내",
-            "김명숙s, 김행화s"
-          ],
-          [
-            "식사 당번",
-            "가정의날"
-          ],
-          [
-            "설거지 (청년회)",
-            "가정의날"
-          ],
-          [
-            "배식·청소 (봉사회)",
-            "31, 32구역"
-          ],
-          [
-            "주일 암송",
-            "양동훈b"
-          ]
-        ]
-      },
-      {
         "label": "10월 4일",
         "rows": [
           [
@@ -291,6 +254,43 @@ const CONTENT = {
             "권동석b"
           ]
         ]
+      },
+      {
+        "label": "10월 18일",
+        "rows": [
+          [
+            "현관 안내 (1층) 형제",
+            "21구역 형제"
+          ],
+          [
+            "현관 안내 (1층) 자매",
+            "21구역 자매"
+          ],
+          [
+            "대강당 자리 안내",
+            "김한b, 채수효b"
+          ],
+          [
+            "대강당 자리 안내",
+            "김명숙s, 김행화s"
+          ],
+          [
+            "식사 당번",
+            "4조"
+          ],
+          [
+            "설거지 (청년회)",
+            "6조"
+          ],
+          [
+            "배식·청소 (봉사회)",
+            "33, 41구역"
+          ],
+          [
+            "주일 암송",
+            "서도현b"
+          ]
+        ]
       }
     ],
     "quote": "“누가 봉사하려면 하나님이 공급하시는 힘으로 하는 것 같이 하라”",
@@ -345,10 +345,6 @@ const CONTENT = {
       "title": "전국 교회 전도집회",
       "groups": [
         {
-          "when": "9. 28(월) ~ 10. 4(주일)",
-          "churches": "영덕, 광명"
-        },
-        {
           "when": "10. 5(월) ~ 10. 11(주일)",
           "churches": "강화, 광주남부, 나주, 대전동부, 보성, 서울동대문, 성남"
         },
@@ -365,46 +361,52 @@ const CONTENT = {
     "photoCaption": "8월 첫째 주 구역모임",
     "items": [
       {
-        "date": "9. 27",
-        "category": "",
-        "title": "가정의 날",
-        "body": "금일(27)은 가정의 날로 점심식사와 오후교제는 없습니다."
-      },
-      {
-        "date": "9. 27",
+        "date": "10. 4",
         "category": "",
         "title": "새신자부 모임",
-        "body": "일  시 : 9월 27일(주일) 오전 9시  /  장  소 : 봉사회실"
+        "body": "일  시 : 10월 4일(주일) 오전 9시  /  장  소 : 봉사회실"
       },
       {
-        "date": "9. 27",
+        "date": "10. 4",
         "category": "",
-        "title": "주일집회(3일차)",
-        "body": "일  시 : 9월 27일(주일) 오전 10시 40분  /  장  소 : 봉사회실"
+        "title": "주일집회(4일차)",
+        "body": "일  시 : 10월 4일(주일) 오전 10시 40분  /  장  소 : 봉사회실"
       },
       {
-        "date": "9. 29",
+        "date": "10. 4",
         "category": "",
-        "title": "어머니회 임원모임",
-        "body": "일  시 : 9월 29일(화) 오전 10시  /  장  소 : 대강당"
+        "title": "전체 임원모임",
+        "body": "일  시 : 10월 4일(주일) 오후 1시 30분  /  장  소 : 대강당"
       },
       {
-        "date": "9. 29",
+        "date": "10. 6",
         "category": "",
-        "title": "직장조모임",
-        "body": "일  시 : 9월 29일(화) 오후 7시 30분  /  장  소 : 봉사회실"
+        "title": "조모임",
+        "body": "일  시 : 10월 6일(화) 오전 10시\n\n21조 : 김한솔s - 조촌동 센트롤파크아파트 103/2504 (김e)\n22조 : 이경애s - 금광동 삼성아파트 5/1102\n23조 : 김춘이s - 나운동 주공4차아파트 406/719\n\n41조 : 고선경d - 미룡동 금광베네스타아파트 103/1705\n42조 : 김선희d - 공단대로 686 (최p)\n43조 : 최영주s - 소룡동 제이파크아파트 209/504 (담임p)"
       },
       {
-        "date": "10. 1",
+        "date": "10. 7",
         "category": "",
-        "title": "구역모임",
-        "body": "일  시 : 10월 1일(목) 오후 7시 30분\n11구역 : 정애옥s  나운동 비사벌아파트 102/304 (김e)\n12구역 : 은장회 교회당\n13구역 : 양동훈b 사정동 금호타운2차아파트 205/1003\n31구역 : 여경숙s 수송동 오투그란데 503/1003 (담임p)\n32구역 : 이영기b 구암동 디오션루체 105/1202 (최p)\n33구역 : 민서영s 옥산면 대광로제비앙아파트 101/2104"
+        "title": "은장회 임원모임",
+        "body": "일  시 : 10월 7일(수) 오전 10시  /  장  소 : 은장회실"
       },
       {
-        "date": "10. 2",
+        "date": "10. 8",
         "category": "",
-        "title": "구역모임",
-        "body": "일  시 : 10월 2일(금) 오후 7시 30분\n21구역 : 토야s 조촌동 송정써미트아파트 108/602 (담임p)\n22구역 : 이영옥s 문화동 876-22\n23구역 : 김현숙s 나운동 주공5차아파트 508/901 (김e)\n41구역 : 전춘섭b 상평리 367-1 (최p)\n42구역 : 강명희s 산북동 시영아파트 102/403\n43구역 : 박상규d 창성동 주공아파트 106/1105"
+        "title": "조모임",
+        "body": "일  시 : 10월 8일(목) 오전 10시\n\n11조 : 황영심s - 조촌동 이편한세상 디오션시티2차 303/303\n12조 : 최수지s - 조촌동 더샵 2차 506/1901 (담임p)\n13조 : 신혜리s - 조촌동 센트럴파크아파트 103/1004 (김e)\n\n31조 : 신주옥s - 지곡동 엠코 103/1202\n32조 : 남선희d - 조촌동 현대아파트 104/208\n33조 : 민서영s - 옥산면 대광로제비앙아파트 101/2104 (최p)\n"
+      },
+      {
+        "date": "10. 8",
+        "category": "",
+        "title": "청년회 임원모임",
+        "body": "일  시 : 10월 8일(목) 오후 7시 30분  /  장  소 : 청년회실"
+      },
+      {
+        "date": "10. 9 ~ 10",
+        "category": "",
+        "title": "중고등부 수련회",
+        "body": "일  시 : 10월 9일(금) ~ 10(토)  /  장  소 : 교육원"
       },
       {
         "date": "판매",
@@ -521,7 +523,7 @@ const CONTENT = {
         "외부 : 김규동 전도사(천안남부)",
         "말씀 : 문경호 목사(평택동부)"
       ],
-      "27": [
+      "29": [
         "어머니 월례회"
       ],
       "31": [
@@ -595,50 +597,24 @@ const CONTENT = {
     "albums": [
       {
         "show": true,
-        "title": "영유아모임",
-        "date": "2026. 9. 22",
+        "title": "구역모임",
+        "date": "2026. 10. 1",
         "note": "",
         "photos": [
-          "images/gmudhlj0a1qi.webp"
+          "images/gmuqjqd4z6u3.webp",
+          "images/gmuqjqd5w569.webp",
+          "images/gmuqjqd7i402.webp",
+          "images/gmuqjqd9j3d3.webp",
+          "images/gmuqjqdc12wj.webp"
         ]
       },
       {
         "show": true,
-        "title": "2026년 추계수양회",
-        "date": "2026. 9. 17 ~ 20",
+        "title": "직장조모임",
+        "date": "2026. 9. 29",
         "note": "",
         "photos": [
-          "images/gmu7q6bu43nj.webp",
-          "images/gmu7q6bx0rq.webp",
-          "images/gmu7q6bz7a5.webp",
-          "images/gmu7q6c1a6rd.webp",
-          "images/gmu7q6c365fj.webp",
-          "images/gmu7q6c506uq.webp",
-          "images/gmu7q6c6x1no.webp",
-          "images/gmu7q6c8n338.webp",
-          "images/gmu7q6cdm6oh.webp",
-          "images/gmu7x509ye6.webp",
-          "images/gmu7x50c77md.webp",
-          "images/gmu7x50dq1we.webp",
-          "images/gmu7x50fw25t.webp",
-          "images/gmu7x50hu6y5.webp",
-          "images/gmu7x50jw382.webp",
-          "images/gmu7x50lv3mq.webp",
-          "images/gmu7x50nngo.webp",
-          "images/gmu7x50pe5p3.webp",
-          "images/gmu7x50ra5a9.webp",
-          "images/gmu7x50vx1lk.webp"
-        ]
-      },
-      {
-        "show": true,
-        "title": "33구역집회",
-        "date": "2026. 9. 7~11",
-        "note": "",
-        "photos": [
-          "images/gmtxmkqxx5nr.webp",
-          "images/gmtxmkqyv1y4.webp",
-          "images/gmtxmlfd54se.webp"
+          "images/gmuqjppxr70e.webp"
         ]
       },
       {
@@ -647,10 +623,39 @@ const CONTENT = {
         "date": "",
         "note": "",
         "photos": [
-          "images/gmtxmjffy6ia.webp",
-          "images/gmtxmjfgx1hj.webp",
-          "images/gmtxmjflb6b.webp"
+          "images/gmup5mt8f6q6.webp",
+          "images/gmup5mtbf2om.webp",
+          "images/gmup5mzbb47i.webp",
+          "images/gmup5mze11by.webp"
         ]
+      },
+      {
+        "show": false,
+        "title": "영유아모임",
+        "date": "2026. 9. 22",
+        "note": "",
+        "photos": []
+      },
+      {
+        "show": false,
+        "title": "2026년 추계수양회",
+        "date": "2026. 9. 17 ~ 20",
+        "note": "",
+        "photos": []
+      },
+      {
+        "show": false,
+        "title": "33구역집회",
+        "date": "2026. 9. 7~11",
+        "note": "",
+        "photos": []
+      },
+      {
+        "show": false,
+        "title": "심방",
+        "date": "",
+        "note": "",
+        "photos": []
       },
       {
         "show": true,
@@ -660,36 +665,16 @@ const CONTENT = {
         "photos": []
       },
       {
-        "show": true,
+        "show": false,
         "title": "조모임",
-        "photos": [
-          "images/gmtno6etp27i.webp",
-          "images/gmtno6ev74hm.webp",
-          "images/gmtno6exe3o3.webp",
-          "images/gmtno6ez51wa.webp",
-          "images/gmtno6f264ir.webp",
-          "images/gmtno6f4xts.webp",
-          "images/gmtno6faw5v0.webp"
-        ],
+        "photos": [],
         "note": "",
         "date": "2026. 9. 1/3/4"
       },
       {
-        "show": true,
+        "show": false,
         "title": "구역모임",
-        "photos": [
-          "images/gmtxmc2sosq.webp",
-          "images/gmtxmc2v363l.webp",
-          "images/gmtxmc2vn6ie.webp",
-          "images/gmtxmc2wh2y3.webp",
-          "images/gmtxmc2xc3mg.webp",
-          "images/gmtxmc2zi66l.webp",
-          "images/gmtxmc3147l.webp",
-          "images/gmtxmc33g24h.webp",
-          "images/gmtxmc37k43j.webp",
-          "images/gmtxmc39r59t.webp",
-          "images/gmtxmgve223z.webp"
-        ],
+        "photos": [],
         "note": "",
         "date": "2026. 9. 8/10/11"
       }
@@ -977,6 +962,6 @@ const CONTENT = {
         "speaker": ""
       }
     ],
-    "note": "9. 22 ~ 10. 5 멕시코 에스까르세가 : 노진구(평택)\n9. 22 ~ 10. 1 스페인 세고비아 :  김도현(성남)\n9. 22 ~ 10. 1 태국 방콕 : 김연숙(서울노원)\n9. 23 ~ 10. 5 에콰도르 키토수르 : 배현기(광주봉선)\n9. 24 ~ 10. 3 몽골 다르한서부 : 김영훈,김명호(화순)\n9. 28 ~ 10. 6 몽골 에르뜨네뜨 : 김현태(서울서부)\n9. 28 ~ 10. 6 몽골 야르막 : 변인교(울산)\n9. 28 ~ 10. 9 멕시코 노갈레스 : 신창훈(서울강북)\n9. 28 ~ 10. 6 몽골 셀렝게 : 김춘현(포천)\n9. 28 ~ 10. 11 볼리비아 라파스 : 최호영(대전)"
+    "note": "10. 1 ~ 10. 10 스페인 무르시아 : 차인환(북수원)\n10. 1 ~ 10. 8 프랑스 르부르제 : 장기현(포항)\n10. 1 ~ 10. 4 일본 동경신주쿠 : 홍정현(수원)\n10. 1 ~ 10. 13 페루 꼬마스 : 이종업(인천부평)\n10. 1 ~ 10. 14 페루 아레키파 : 이영민(서울중랑)\n10. 3 ~ 10. 14 필리핀 올티가스 : 양민혁(원주)\n10. 3 ~ 10. 10 필리핀 퀘존 : 장관익(창원)\n10. 3 ~ 10. 12 몽골 샌샨드 : 박종문(노화)\n10. 4 ~ 10. 12 필리핀 딸락 : 박상언(울산북부)\n10. 4 ~ 10. 12 필리핀 바공실랑 : 유태홍(함평)"
   }
 };
