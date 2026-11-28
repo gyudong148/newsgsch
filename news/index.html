@@ -502,6 +502,9 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:calc(va
 .cal__picked{background:var(--surface-tint); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:8px}
 .cal__pickedLabel{font-family:var(--font-sans); font-size:var(--fs-caption); font-weight:700; letter-spacing:var(--tracking-label); color:var(--color-sky)}
 .cal__pickedItem{font-family:var(--font-sans); font-size:var(--fs-body); font-weight:500; line-height:1.7; color:var(--text-body); word-break:keep-all; white-space:pre-line}
+.cal__months{display:flex; gap:8px}
+.cal__month{flex:1; min-height:44px; border:1px solid var(--border-hairline); border-radius:var(--radius-sm); background:transparent; font-family:var(--font-sans); font-size:calc(16px * var(--fs-scale)); font-weight:700; color:var(--text-muted); cursor:pointer; transition:background var(--dur-fast) var(--ease-standard)}
+.cal__month[aria-pressed="true"]{background:var(--color-navy); border-color:var(--color-navy); color:#fff}
 .spans{display:flex; flex-direction:column}
 .span__row{display:flex; align-items:baseline; gap:4px 12px; flex-wrap:wrap; padding:12px 0; border-bottom:1px solid var(--border-hairline)}
 .span__row:last-child{border-bottom:none}
@@ -1299,12 +1302,41 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:calc(va
   /* ── 9. 월간계획 (달력 자동 생성) ────────────────────────── */
   function buildPlan() {
     var p = C.plan || {};
-    var year = p.year || new Date().getFullYear();
-    var month = p.month || (new Date().getMonth() + 1);
-    var days = p.days || {};
+    /* 이번 달 + (있으면) 다음 달 — 정식판 1.3 */
+    var months = [{
+      year: Number(p.year) || new Date().getFullYear(),
+      month: Number(p.month) || (new Date().getMonth() + 1),
+      days: p.days || {},
+      openDay: p.openDay
+    }];
+    var nx = p.next;
+    if (nx && nx.show && Number(nx.month)) {
+      var nd = nx.days || {};
+      months.push({
+        year: Number(nx.year) || (months[0].month === 12 ? months[0].year + 1 : months[0].year),
+        month: Number(nx.month),
+        days: nd,
+        openDay: nx.openDay
+      });
+    }
+    var mi = 0;
 
     var sec = el("section"); sec.id = "plan";
-    add(sec, SectionHeader("Monthly Plan", month + "월 월간계획", "날짜를 눌러 보세요"));
+    var title = months.length > 1
+      ? months[0].month + "·" + months[1].month + "월 월간계획"
+      : months[0].month + "월 월간계획";
+    add(sec, SectionHeader("Monthly Plan", title, "날짜를 눌러 보세요"));
+
+    var tabs = null;
+    if (months.length > 1) {
+      tabs = el("div", "cal__months");
+      months.forEach(function (m, i) {
+        var tb = el("button", "cal__month", m.month + "월");
+        tb.type = "button";
+        tb.onclick = function () { mi = i; current = startDay(months[i]); draw(); };
+        add(tabs, tb);
+      });
+    }
 
     var card = el("div", "card-hairline cal");
     var names = el("div", "cal__names");
@@ -1324,12 +1356,17 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:calc(va
     pickedList.style.gap = "8px";
     add(picked, pickedLabel, pickedList);
 
-    var first = new Date(year, month - 1, 1).getDay();   // 0 = 주일
-    var last = new Date(year, month, 0).getDate();
-    var current = days[p.openDay] ? p.openDay : (p.openDay || 1);
+    function startDay(m) {
+      var last = new Date(m.year, m.month, 0).getDate();
+      var d = Number(m.openDay) || 1;
+      if (d < 1 || d > last) d = 1;
+      return d;
+    }
+    var current = startDay(months[0]);
 
     function paintPicked() {
-      pickedLabel.textContent = month + "월 " + current + "일";
+      var m = months[mi], days = m.days;
+      pickedLabel.textContent = m.month + "월 " + current + "일";
       pickedList.textContent = "";
       var items = days[current] && days[current].length ? days[current] : ["예정된 모임이 없습니다."];
       items.forEach(function (t) {
@@ -1341,27 +1378,39 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:calc(va
       });
     }
 
-    for (var i = 0; i < first; i++) {
-      add(grid, el("div", "cal__cell cal__cell--empty"));
+    function draw() {
+      var m = months[mi], days = m.days;
+      grid.textContent = "";
+      var first = new Date(m.year, m.month - 1, 1).getDay();   // 0 = 주일
+      var last = new Date(m.year, m.month, 0).getDate();
+      for (var i = 0; i < first; i++) {
+        add(grid, el("div", "cal__cell cal__cell--empty"));
+      }
+      for (var d = 1; d <= last; d++) {
+        (function (day) {
+          var hasItems = !!(days[day] && days[day].length);
+          var b = el("button", "cal__cell" + (hasItems ? " cal__cell--has" : ""));
+          b.type = "button";
+          b.setAttribute("data-day", day);
+          b.setAttribute("aria-label", m.month + "월 " + day + "일");
+          add(b, el("span", "cal__num", String(day)));
+          add(b, el("span", "cal__dot"));
+          b.onclick = function () { current = day; paintPicked(); };
+          add(grid, b);
+        })(d);
+      }
+      var trailing = (7 - ((first + last) % 7)) % 7;
+      for (var j = 0; j < trailing; j++) {
+        add(grid, el("div", "cal__cell cal__cell--empty"));
+      }
+      if (tabs) {
+        Array.prototype.forEach.call(tabs.children, function (b, i) {
+          b.setAttribute("aria-pressed", i === mi ? "true" : "false");
+        });
+      }
+      paintPicked();
     }
-    for (var d = 1; d <= last; d++) {
-      (function (day) {
-        var hasItems = !!(days[day] && days[day].length);
-        var b = el("button", "cal__cell" + (hasItems ? " cal__cell--has" : ""));
-        b.type = "button";
-        b.setAttribute("data-day", day);
-        b.setAttribute("aria-label", month + "월 " + day + "일");
-        add(b, el("span", "cal__num", String(day)));
-        add(b, el("span", "cal__dot"));
-        b.onclick = function () { current = day; paintPicked(); };
-        add(grid, b);
-      })(d);
-    }
-    var trailing = (7 - ((first + last) % 7)) % 7;
-    for (var j = 0; j < trailing; j++) {
-      add(grid, el("div", "cal__cell cal__cell--empty"));
-    }
-    paintPicked();
+    draw();
 
     /* 여러 날에 걸친 주요 일정을 달력보다 먼저 */
     if ((p.spans || []).length) {
@@ -1374,6 +1423,7 @@ section{display:flex; flex-direction:column; gap:16px; scroll-margin-top:calc(va
       });
       add(sec, spans);
     }
+    if (tabs) add(sec, tabs);
     add(sec, card, picked);
     return sec;
   }
